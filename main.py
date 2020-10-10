@@ -1,12 +1,13 @@
 
 
 import utils
-from fire_mark import printing_option_and_quantity
-from fire_mark import add_watermark
+from fire_mark import FireMark
 
 if __name__ == "__main__":
 
-    printing_option_and_quantity()
+    start_print = FireMark(
+        utils.printing_option(), utils.quantity(), utils.opacity())
+    start_print.watermark_option()
 
 """   add_watermark(utils.get_path_from_user(),
                   input("Enter watermark: "),
