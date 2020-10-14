@@ -2,14 +2,19 @@
 
 import utils
 from fire_mark import FireMark
+import tkinter as tk
+import app_gui
 
 if __name__ == "__main__":
 
+    """
     start_print = FireMark(
-        utils.printing_option(), utils.quantity(), utils.opacity())
+        utils.printing_option(), utils.quantity(), utils.opacity(
+        ), utils.get_file_path_from_user(), utils.get_dir_path_from_user()
+    )
     start_print.watermark_option()
+    """
 
-"""   add_watermark(utils.get_path_from_user(),
-                  input("Enter watermark: "),
-                  utils.percent_to_byte(int(input("Enter opacity percentage: "))), "single")
-"""
+    root = tk.Tk()
+    gui = app_gui.GUI(root)
+    root.mainloop()

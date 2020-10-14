@@ -10,18 +10,16 @@ from pathlib import Path
 import pdb
 import utils
 from PIL import Image, ImageDraw, ImageFont
-# from tkinter.filedialog import askopenfilename
-# from tkinter import Tk
 
 
 class FireMark():
 
-    def __init__(self, printing_option: str, quantity: int, opacity: int):
+    def __init__(self, printing_option: str, quantity: int, opacity: int, image_path, save_folder):
         self.printing_option = printing_option
         self.quantity = quantity
         self.opacity = opacity
-        self.image_path = utils.get_file_path_from_user()  # TODO:move to the function call
-        self.save_folder = utils.get_dir_path_from_user()
+        self.image_path = image_path
+        self.save_folder = save_folder
 
     def add_watermark(self, text):
 
@@ -36,7 +34,7 @@ class FireMark():
             "RGBA", base_layer.size, (255, 255, 255, 0))
         blank_text_layer = ImageDraw.Draw(blank_text_image)
 
-        font = ImageFont.truetype('arial.ttf', 36)
+        font = ImageFont.truetype('arial.ttf', 72)
         # TODO: choose font and size
         textwidth, textheight = blank_text_layer.textsize(text, font)
 
@@ -48,30 +46,20 @@ class FireMark():
             # TODO: get x,y from user
 
             # draw watermark in the bottom right corner
-
             blank_text_layer.text((x, y), text, font=font,
                                   fill=(255, 255, 255, self.opacity))
 
-            watermarked_pic = Image.alpha_composite(
-                base_layer, blank_text_image)
-
-            watermarked_pic.show()
-
         else:
-            aspect_ratio = textwidth / textheight
-            new_text_width = width * 0.125
-            blank_text_layer.thumbnail(
-                (new_text_width, new_text_width / aspect_ratio), Image.ANTIALIAS)
 
-            tmp_img = Image.new('RGB', base_layer.size)
+            for i in range(10, width-10, 2*textwidth):
+                for j in range(10, height-10, 3*textheight):
+                    blank_text_layer.text((i, j), text, font=font,
+                                          fill=(255, 255, 255, self.opacity))
 
-            for i in range(0, tmp_img.size[0], blank_text_layer.size[0]):
-                for j in range(0, tmp_img.size[1], blank_text_layer.size[1]):
-                    base_layer.paste(blank_text_layer,
-                                     (i, j), blank_text_layer)
+        watermarked_pic = Image.alpha_composite(
+            base_layer, blank_text_image)
 
-            watermarked_pic = base_layer
-            watermarked_pic.show()
+        watermarked_pic.show()
 
         return watermarked_pic
 
@@ -84,10 +72,14 @@ class FireMark():
             # might need a format
             im.save(str(self.save_folder/"watermarked_image.png"))
 
-        else:
+        else:  # maybe give the option to change num of letter?
             for num in range(self.quantity):
                 digits = "".join([random.choice(string.digits)
-                                  for i in range(8)])
+                                  for i in range(5)])
                 im = self.add_watermark(digits)
                 # might need a format
-                im.save(str(self.save_folder/(f"watermarked{num}")), "png")
+                im.save(str(self.save_folder/(f"watermarked{num}.png")))
+
+
+# TODO: input to name of saved file and a deafault saving name
+# TODO: calculate printing pattern
