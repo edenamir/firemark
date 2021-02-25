@@ -1,15 +1,12 @@
-'''
-new awesome project by Mattan and Eden
 
-'''
 
 # Import required Image library
+from PIL import Image, ImageDraw, ImageFont
 import string
 import random
 from pathlib import Path
 import pdb
 import utils
-from PIL import Image, ImageDraw, ImageFont
 
 
 class FireMark():
