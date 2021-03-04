@@ -8,6 +8,11 @@ from pathlib import Path
 import pdb
 import utils
 
+'''
+is not adapted for a GUI
+some of the functions can transfer into utils 
+'''
+
 
 class FireMark():
 
@@ -80,3 +85,7 @@ class FireMark():
 
 # TODO: input to name of saved file and a deafault saving name
 # TODO: calculate printing pattern
+# TODO: change icon and name
+
+
+# TODO: change menu
