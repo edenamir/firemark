@@ -40,23 +40,18 @@ class PreviewFrame(tk.Frame):
     '''
 
     def display_image(self, file_path):
-        '''
+
         self.img = ImageTk.PhotoImage(
-            Image.open(r"C:\Workspace\fire_mark\img.jpeg"))
-        self.display_label.place(relx=0, rely=0, relwidth=0.50,
-                                 relheight=0.8)
-            '''
-        self.img = ImageTk.PhotoImage(
-            Image.open(str(r"C:\Workspace\fire_mark\bgimg.jpg")))
+            Image.open(str(file_path)))
         self.display_label = tk.Label(
             self, image=self.img)
         self.display_label.pack()
+        print("hello")
 
 
 '''
 MenuFrame will define all widgets responsible for the options of the menu
 
-single or batch
 number of copies 
 text or random 
 opacity
@@ -72,14 +67,13 @@ class MenuFrame(tk.Frame):
         tk.Frame.__init__(self, root, *args, **kwargs)
         self.root = root
         self.font_list = ['arial.ttf', 'lucida bright.ttf', 'david.ttf']
-        self.load_image = tk.Button(self, text="Selcet image",
-                                    font=font.Font(size=11), command=self.root.fn.pick_image)
+        self.load_image_btn = tk.Button(self, text="Selcet image",
+                                        font=font.Font(size=11), command=self.load_image)
         self.random_check = tk.Checkbutton(
             self, text='Random', onvalue=1, offvalue=0)
 
         self.enter_text = tk.Entry(self, font=30)
         self.enter_text.insert(0, "Enter text")
-        self.text = self.enter_text.get()  # not suppose to be here move to outside func
 
         self.create_drop_down_menu()
 
@@ -100,13 +94,15 @@ class MenuFrame(tk.Frame):
         self.combo.current(0)
         #self.combo.bind("<<ComboboxSelected>>", selected)
 
-    '''
-        self.chosen_font = tk.StringVar()
-        self.chosen_font.set("choose font")
-        self.select_font = tk.OptionMenu(
-            self, self.chosen_font, *self.font_list)
-        self.chosen_font = self.chosen_font.get()
-'''
+    def load_image(self):
+        self.root.fn.pick_image()
+        self.root.image_frame.display_image(self.root.fn.path)
+
+        # self.chosen_font = tk.StringVar()
+        # self.chosen_font.set("choose font")
+        # self.select_font = tk.OptionMenu(
+        #     self, self.chosen_font, *self.font_list)
+        # self.chosen_font = self.chosen_font.get()
 
 
 '''
@@ -136,10 +132,17 @@ class SaveFrame(tk.Frame):
         self.show_image = tk.Button(self, text="Show preview",
                                     font=font.Font(size=11))
         self.save_image = tk.Button(self, text="Save",
-                                    font=font.Font(size=11), command=self.root.dp.pick_dir)
+                                    font=font.Font(size=11), command=self.export_image)
 
         self.show_image.place(rely=0.1, relheight=0.35, relwidth=1)
         self.save_image.place(rely=0.5, relheight=0.35, relwidth=1)
+        self.firemark = FireMark()
+
+    def export_image(self):
+        self.root.dp.pick_dir()
+        self.firemark.save_folder = self.root.dp.path
+        self.firemark.image_path = self.root.fn.path
+        self.firemark.watermark_process(self.root.menu_frame.enter_text.get())
 
 
 '''
@@ -174,9 +177,9 @@ class GUI(tk.Frame):
         self.batch_mode = tk.Button(self, text="Batch",
                                     font=font.Font(size=11))
 
-        # playcing widgets
-        self.background_label.place(x=0, y=0, relwidth=1, relheight=1)
-        self.background_label.lower()
+        # placing widgets
+        # self.background_label.place(x=0, y=0, relwidth=1, relheight=1)
+        # self.background_label.lower()
         '''
         self.image_frame.place(relx=0.05, rely=0.1, relwidth=0.50,
                                relheight=0.85)
@@ -200,7 +203,8 @@ rely=0.25, relwidth=1, relheight=0.15)
                                          relwidth=0.6, relheight=0.15)
         self.menu_frame.random_check.place(rely=0.85, relx=0,
                                            relwidth=0.2)
-        self.menu_frame.load_image.place(rely=0.05, relheight=0.15, relwidth=1)
+        self.menu_frame.load_image_btn.place(
+            rely=0.05, relheight=0.15, relwidth=1)
         self.menu_frame.number_of_copies.place(rely=0.45,
                                                relwidth=1, relheight=0.15)
         self.menu_frame.text_opacity.place(

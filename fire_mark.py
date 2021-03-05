@@ -13,10 +13,18 @@ is not adapted for a GUI
 some of the functions can transfer into utils 
 '''
 
+# class Options():
+#     def __init__(self, printing_option=("single"): str, quantity=(1): int, opacity=(80): int, image_path, save_folder)
+#         self.printing_option = printing_option
+#         self.quantity = quantity
+#         self.opacity = opacity
+#         self.image_path = image_path
+#         self.save_folder = save_folder
+
 
 class FireMark():
 
-    def __init__(self, printing_option: str, quantity: int, opacity: int, image_path, save_folder):
+    def __init__(self, printing_option: str = ("single"), quantity: int = (1), opacity: int = (80), image_path=None, save_folder=None):
         self.printing_option = printing_option
         self.quantity = quantity
         self.opacity = opacity
@@ -65,10 +73,9 @@ class FireMark():
 
         return watermarked_pic
 
-    def watermark_option(self):
+    def watermark_process(self, text):
 
         if self.quantity == 1:
-            text = input("Enter watermark: ")
             im = self.add_watermark(text)
 
             # might need a format
