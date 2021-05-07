@@ -161,12 +161,12 @@ class GUI(tk.Frame):
         self.dp = DirPicker()
         self.root = root
 
-        self.image_frame = PreviewFrame(self, bg='#6930c3')
-        self.menu_frame = MenuFrame(self, bg='#64dfdf')
-        self.save_frame = SaveFrame(self, bg='#47ffcb')
+        self.image_frame = PreviewFrame(self, bg='#0d0e10')
+        self.menu_frame = MenuFrame(self, bg='#232426')
+        self.save_frame = SaveFrame(self, bg='#232426')
 
         self.background_label = tk.Label(
-            self, bg='#252525')
+            self, bg='#0d0e10')
 
         # label buttons entrys etc...
         self.preview_label = tk.Label(
@@ -178,13 +178,13 @@ class GUI(tk.Frame):
                                     font=font.Font(size=11))
 
         # placing widgets
-        # self.background_label.place(x=0, y=0, relwidth=1, relheight=1)
-        # self.background_label.lower()
+        self.background_label.place(x=0, y=0, relwidth=1, relheight=1)
+        self.background_label.lower()
         '''
         self.image_frame.place(relx=0.05, rely=0.1, relwidth=0.50,
                                relheight=0.85)
                                '''
-        #self.preview_label.place(relx=0.05, rely=0.06)
+        self.preview_label.place(relx=0.05, rely=0.06)
         self.menu_frame.place(relx=0.05, rely=0.15, relwidth=0.20,
                               relheight=0.4)
 
