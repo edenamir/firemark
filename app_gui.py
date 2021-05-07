@@ -25,7 +25,7 @@ class DirPicker():
         self.path = None
 
     def pick_dir(self):
-        self.path = utils.get_dir_path_from_user()
+        self.path = utils.get_save_path_from_user()
 
 
 class PreviewFrame(tk.Frame):
@@ -46,7 +46,6 @@ class PreviewFrame(tk.Frame):
         self.display_label = tk.Label(
             self, image=self.img)
         self.display_label.pack()
-        print("hello")
 
 
 '''
