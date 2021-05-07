@@ -7,7 +7,7 @@ from tkinter import font
 import tkinter as tk
 from tkinter import ttk
 import utils
-from fire_mark import FireMark
+from fire_mark import FireMark, Options
 from PIL import Image, ImageTk
 
 
@@ -94,8 +94,8 @@ class MenuFrame(tk.Frame):
         #self.combo.bind("<<ComboboxSelected>>", selected)
 
     def load_image(self):
-        self.root.fn.pick_image()
-        self.root.image_frame.display_image(self.root.fn.path)
+        self.root.chosen_image_path.pick_image()
+        self.root.image_frame.display_image(self.root.chosen_image_path.path)
 
         # self.chosen_font = tk.StringVar()
         # self.chosen_font.set("choose font")
@@ -135,13 +135,18 @@ class SaveFrame(tk.Frame):
 
         self.show_image.place(rely=0.1, relheight=0.35, relwidth=1)
         self.save_image.place(rely=0.5, relheight=0.35, relwidth=1)
-        self.firemark = FireMark()
 
     def export_image(self):
-        self.root.dp.pick_dir()
-        self.firemark.save_folder = self.root.dp.path
-        self.firemark.image_path = self.root.fn.path
-        self.firemark.watermark_process(self.root.menu_frame.enter_text.get())
+        self.file_to_save = self.root.save_path.pick_dir()
+        self.text = self.root.menu_frame.enter_text.get()
+        self.options = Options(
+            "single", 1, 80, self.root.chosen_image_path.path, self.file_to_save, self.text)
+        #self.firemark.image_path = self.root.chosen_image_path.path
+
+        # self.firemark.watermark_process(self.root.menu_frame.enter_text.get())
+
+        self.firemark = FireMark(self.options)
+        self.firemark.watermark_process()
 
 
 '''
@@ -156,8 +161,8 @@ class GUI(tk.Frame):
     def __init__(self, root, *args, **kwargs):
         tk.Frame.__init__(self, root, *args, **kwargs)
         self.dic = {}
-        self.fn = FilePicker()
-        self.dp = DirPicker()
+        self.chosen_image_path = FilePicker()
+        self.save_path = DirPicker()
         self.root = root
 
         self.image_frame = PreviewFrame(self, bg='#0d0e10')
