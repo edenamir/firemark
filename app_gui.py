@@ -85,7 +85,6 @@ class MenuFrame(tk.Frame):
         self.number_of_copies = tk.Entry(self, font=30)
         self.number_of_copies.insert(0, "Number of copies")
         # not suppose to be here move to outside func
-        self.chosen_num = self.number_of_copies.get()
 
         self.text_opacity = tk.Scale(
             self, from_=1, to=100, orient="horizontal")
@@ -144,7 +143,7 @@ class SaveFrame(tk.Frame):
         self.file_to_save = self.root.save_path.pick_dir()
         self.text = self.root.menu_frame.enter_text.get()
         self.options = Options(
-            "single", 1, 80, self.root.chosen_image_path.path, self.file_to_save, self.text)
+            "single", int(self.root.menu_frame.number_of_copies.get()), 80, self.root.chosen_image_path.path, self.file_to_save, self.text)
         #self.firemark.image_path = self.root.chosen_image_path.path
 
         # self.firemark.watermark_process(self.root.menu_frame.enter_text.get())
@@ -204,8 +203,8 @@ rely=0.25, relwidth=1, relheight=0.15)
             rely=0.65, relwidth=1, relheight=0.10)
         self.menu_frame.enter_text.place(rely=0.85, relx=0.4,
                                          relwidth=0.6, relheight=0.10)
-        self.menu_frame.random_check.place(rely=0.85, relx=0.1,
-                                           relwidth=0.25)
+#        self.menu_frame.random_check.place(rely=0.85, relx=0.1,
+#                                          relwidth=0.25)
 
         self.menu_frame.number_of_copies.place(rely=0.45,
                                                relwidth=1, relheight=0.10)

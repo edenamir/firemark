@@ -85,7 +85,7 @@ class FireMark():
             im = self.add_watermark(self.text)
 
             # might need a format
-            im.save(str(self.save_folder)+".png")
+            im.save(str(self.save_folder+".png"))
 
         else:  # maybe give the option to change num of letter?
             for num in range(self.quantity):
@@ -93,7 +93,7 @@ class FireMark():
                                   for i in range(5)])
                 im = self.add_watermark(digits)
                 # might need a format
-                im.save(str(self.save_folder/(f"watermarked{num}.png")))
+                im.save(str(self.save_folder)+(f"watermarked{num}.png"))
 
 
 # TODO: input to name of saved file and a deafault saving name
