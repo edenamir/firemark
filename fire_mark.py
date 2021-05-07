@@ -13,23 +13,29 @@ is not adapted for a GUI
 some of the functions can transfer into utils 
 '''
 
-# class Options():
-#     def __init__(self, printing_option=("single"): str, quantity=(1): int, opacity=(80): int, image_path, save_folder)
-#         self.printing_option = printing_option
-#         self.quantity = quantity
-#         self.opacity = opacity
-#         self.image_path = image_path
-#         self.save_folder = save_folder
+# printing_option=("single"): str, quantity=(1): int, opacity=(80): int, image_path=None, save_folder=None
 
 
-class FireMark():
-
-    def __init__(self, printing_option: str = ("single"), quantity: int = (1), opacity: int = (100), image_path=None, save_folder=None):
+class Options():
+    def __init__(self, printing_option, quantity, opacity, image_path, save_folder, text):
         self.printing_option = printing_option
         self.quantity = quantity
         self.opacity = opacity
         self.image_path = image_path
         self.save_folder = save_folder
+        self.text = text
+
+
+class FireMark():
+
+    def __init__(self, options):
+        self.options = options
+        self.printing_option = self.options.printing_option
+        self.quantity = self.options.quantity
+        self.opacity = self.options.opacity
+        self.image_path = self.options.image_path
+        self.save_folder = self.options.save_folder
+        self.text = self.options.text
 
     def add_watermark(self, text):
 
@@ -73,13 +79,13 @@ class FireMark():
 
         return watermarked_pic
 
-    def watermark_process(self, text):
+    def watermark_process(self):
 
         if self.quantity == 1:
-            im = self.add_watermark(text)
+            im = self.add_watermark(self.text)
 
             # might need a format
-            im.save(str(self.save_folder))
+            im.save(str(self.save_folder)+".png")
 
         else:  # maybe give the option to change num of letter?
             for num in range(self.quantity):
