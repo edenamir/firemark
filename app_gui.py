@@ -70,6 +70,10 @@ class MenuFrame(tk.Frame):
                                         font=font.Font(size=11), command=self.load_image)
         self.random_check = tk.Checkbutton(
             self, text='Random', onvalue=1, offvalue=0)
+        self.single_mark_check = tk.Checkbutton(
+            self, text='Single', onvalue=1, offvalue=0)
+        self.full_page_mark_check = tk.Checkbutton(
+            self, text='Full page', onvalue=1, offvalue=0)
 
         self.enter_text = tk.Entry(self, font=30)
         self.enter_text.insert(0, "Enter text")
@@ -172,15 +176,6 @@ class GUI(tk.Frame):
         self.background_label = tk.Label(
             self, bg='#0d0e10')
 
-        # label buttons entrys etc...
-        self.preview_label = tk.Label(
-            self, text="preview:", font=font.Font(size=15))
-
-        self.single_mode = tk.Button(self, text="Single",
-                                     font=font.Font(size=11))
-        self.batch_mode = tk.Button(self, text="Batch",
-                                    font=font.Font(size=11))
-
         # placing widgets
         self.background_label.place(x=0, y=0, relwidth=1, relheight=1)
         self.background_label.lower()
@@ -188,31 +183,34 @@ class GUI(tk.Frame):
         self.image_frame.place(relx=0.05, rely=0.1, relwidth=0.50,
                                relheight=0.85)
                                '''
-        self.preview_label.place(relx=0.05, rely=0.06)
+
         self.menu_frame.place(relx=0.05, rely=0.15, relwidth=0.20,
-                              relheight=0.4)
+                              relheight=0.6)
 
         self.save_frame.place(relx=0.05, rely=0.8, relwidth=0.20,
                               relheight=0.1)
 
-        self.single_mode.place(relx=0.05, rely=0.1)
-        self.batch_mode.place(relx=0.1, rely=0.1)
         '''
 self.menu_frame.print_option.place(
 rely=0.25, relwidth=1, relheight=0.15)
 '''
-        self.menu_frame.combo.place(
-            rely=0.65, relwidth=1, relheight=0.15)
-        self.menu_frame.enter_text.place(rely=0.85, relx=0.4,
-                                         relwidth=0.6, relheight=0.15)
-        self.menu_frame.random_check.place(rely=0.85, relx=0,
-                                           relwidth=0.2)
         self.menu_frame.load_image_btn.place(
-            rely=0.05, relheight=0.15, relwidth=1)
+            relheight=0.10, relwidth=1)
+        self.menu_frame.single_mark_check.place(rely=0.15, relx=0.2,
+                                                relwidth=0.2)
+        self.menu_frame.full_page_mark_check.place(rely=0.15, relx=0.6,
+                                                   relwidth=0.25)
+        self.menu_frame.combo.place(
+            rely=0.65, relwidth=1, relheight=0.10)
+        self.menu_frame.enter_text.place(rely=0.85, relx=0.4,
+                                         relwidth=0.6, relheight=0.10)
+        self.menu_frame.random_check.place(rely=0.85, relx=0.1,
+                                           relwidth=0.25)
+
         self.menu_frame.number_of_copies.place(rely=0.45,
-                                               relwidth=1, relheight=0.15)
+                                               relwidth=1, relheight=0.10)
         self.menu_frame.text_opacity.place(
-            rely=0.25, relheight=0.15, relwidth=1)
+            rely=0.25, relheight=0.10, relwidth=1)
     """
     font_title = font.Font(size=10)
     title_label = tk.Label(root, text="preview:", font=font_preview)
