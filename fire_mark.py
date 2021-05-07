@@ -24,7 +24,7 @@ some of the functions can transfer into utils
 
 class FireMark():
 
-    def __init__(self, printing_option: str = ("single"), quantity: int = (1), opacity: int = (80), image_path=None, save_folder=None):
+    def __init__(self, printing_option: str = ("single"), quantity: int = (1), opacity: int = (100), image_path=None, save_folder=None):
         self.printing_option = printing_option
         self.quantity = quantity
         self.opacity = opacity
@@ -79,7 +79,7 @@ class FireMark():
             im = self.add_watermark(text)
 
             # might need a format
-            im.save(str(self.save_folder/"watermarked_image.png"))
+            im.save(str(self.save_folder))
 
         else:  # maybe give the option to change num of letter?
             for num in range(self.quantity):
