@@ -6,7 +6,7 @@ Useful utillity functions for firemark
 
 from pathlib import Path
 from tkinter.filedialog import askopenfilename
-from tkinter.filedialog import askdirectory
+from tkinter.filedialog import asksaveasfilename
 from tkinter import Tk     # from tkinter import Tk for Python 3.x
 
 
@@ -28,14 +28,15 @@ def get_file_path_from_user():
     return Path(filename)
 
 
-def get_dir_path_from_user():
+def get_save_path_from_user():
     '''
     return path to chosen directory
     '''
     Tk().withdraw()  # we don't want a full GUI, so keep the root window from appearing
-    direname = askdirectory()
+    filename = asksaveasfilename(defaultextension=".png", filetypes=[(
+        "png file", ".png"), ("jpg file", ".jpg"), ("jpeg file", ".jpeg")])
 
-    return Path(direname)
+    return Path(filename)
 
 
 def printing_option():
