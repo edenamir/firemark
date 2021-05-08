@@ -84,12 +84,9 @@ class MenuFrame(tk.Frame):
 
         self.number_of_copies = tk.Entry(self, font=30)
         self.number_of_copies.insert(0, "Number of copies")
-        # not suppose to be here move to outside func
 
         self.text_opacity = tk.Scale(
             self, from_=1, to=100, orient="horizontal")
-        # not suppose to be here move to outside func
-        self.chosen_opacity = self.text_opacity.get()
 
     def create_drop_down_menu(self):
         self.combo = ttk.Combobox(self, value=self.font_list)
@@ -107,16 +104,6 @@ class MenuFrame(tk.Frame):
         #     self, self.chosen_font, *self.font_list)
         # self.chosen_font = self.chosen_font.get()
 
-
-'''
-    def create_print_option(self):
-        self.print_option = tk.Listbox(self, selectmode="single",
-                                       height=2, font=font.Font(size=11), bd=5)
-        self.print_option.insert(0, "single water mark")
-        self.print_option.insert(1, "water mark full page")
-        self.chosen_option = self.print_option.get(
-            self.print_option.curselection())
-'''
 
 '''
 SaveFrame will define all widgets responsible for the save options
@@ -143,11 +130,10 @@ class SaveFrame(tk.Frame):
     def export_image(self):
         self.root.save_path.pick_dir()
         self.text = self.root.menu_frame.enter_text.get()
+        self.quantity = self.root.menu_frame.text_opacity.get()
+        self.number_of_copies = self.root.menu_frame.number_of_copies.get()
         self.options = Options(
-            "single", int(self.root.menu_frame.number_of_copies.get()), 80, self.root.chosen_image_path.path, self.root.save_path.path, self.text)
-        #self.firemark.image_path = self.root.chosen_image_path.path
-
-        # self.firemark.watermark_process(self.root.menu_frame.enter_text.get())
+            "single", int(self.number_of_copies), self.quantity, self.root.chosen_image_path.path, self.root.save_path.path, self.text)
 
         self.firemark = FireMark(self.options)
         self.firemark.watermark_process()
