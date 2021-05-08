@@ -7,10 +7,11 @@ import random
 from pathlib import Path
 import pdb
 import utils
+import os  # not suitable for posix os
 
 '''
 is not adapted for a GUI
-some of the functions can transfer into utils 
+some of the functions can transfer into utils
 '''
 
 # printing_option=("single"): str, quantity=(1): int, opacity=(80): int, image_path=None, save_folder=None
@@ -81,11 +82,10 @@ class FireMark():
 
     def watermark_process(self):
 
+        file_name = os.path.basename(str(self.save_folder))
         if self.quantity == 1:
             im = self.add_watermark(self.text)
-
-            # might need a format
-            im.save(str(self.save_folder+".png"))
+            im.save(file_name)
 
         else:  # maybe give the option to change num of letter?
             for num in range(self.quantity):
@@ -93,7 +93,7 @@ class FireMark():
                                   for i in range(5)])
                 im = self.add_watermark(digits)
                 # might need a format
-                im.save(str(self.save_folder)+(f"watermarked{num}.png"))
+                im.save((f"watermarked{num}.png"))
 
 
 # TODO: input to name of saved file and a deafault saving name

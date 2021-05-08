@@ -98,7 +98,8 @@ class MenuFrame(tk.Frame):
 
     def load_image(self):
         self.root.chosen_image_path.pick_image()
-        self.root.image_frame.display_image(self.root.chosen_image_path.path)
+        self.root.image_frame.display_image(
+            self.root.chosen_image_path.path)  # why here????
 
         # self.chosen_font = tk.StringVar()
         # self.chosen_font.set("choose font")
@@ -140,10 +141,10 @@ class SaveFrame(tk.Frame):
         self.save_image.place(rely=0.5, relheight=0.35, relwidth=1)
 
     def export_image(self):
-        self.file_to_save = self.root.save_path.pick_dir()
+        self.root.save_path.pick_dir()
         self.text = self.root.menu_frame.enter_text.get()
         self.options = Options(
-            "single", int(self.root.menu_frame.number_of_copies.get()), 80, self.root.chosen_image_path.path, self.file_to_save, self.text)
+            "single", int(self.root.menu_frame.number_of_copies.get()), 80, self.root.chosen_image_path.path, self.root.save_path.path, self.text)
         #self.firemark.image_path = self.root.chosen_image_path.path
 
         # self.firemark.watermark_process(self.root.menu_frame.enter_text.get())
