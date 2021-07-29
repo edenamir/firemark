@@ -130,10 +130,10 @@ class SaveFrame(tk.Frame):
     def export_image(self):
         self.root.save_path.pick_dir()
         self.text = self.root.menu_frame.enter_text.get()
-        self.quantity = self.root.menu_frame.text_opacity.get()
+        self.opacity = self.root.menu_frame.text_opacity.get()
         self.number_of_copies = self.root.menu_frame.number_of_copies.get()
         self.options = Options(
-            "single", int(self.number_of_copies), self.quantity, self.root.chosen_image_path.path, self.root.save_path.path, self.text)
+            "single", int(self.number_of_copies), self.opacity, self.root.chosen_image_path.path, self.root.save_path.path, self.text)
 
         self.firemark = FireMark(self.options)
         self.firemark.watermark_process()

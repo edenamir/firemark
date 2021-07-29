@@ -5,8 +5,6 @@ from PIL import Image, ImageDraw, ImageFont
 import string
 import random
 from pathlib import Path
-import pdb
-import utils
 import os  # not suitable for posix os
 
 '''
@@ -35,6 +33,7 @@ class FireMark():
         self.quantity = self.options.quantity
         self.opacity = self.options.opacity
         self.image_path = self.options.image_path
+        print(str(self.image_path))
         self.save_folder = self.options.save_folder
         self.text = self.options.text
 
@@ -76,7 +75,7 @@ class FireMark():
         watermarked_pic = Image.alpha_composite(
             base_layer, blank_text_image)
 
-        watermarked_pic.show()
+        # watermarked_pic.show()
 
         return watermarked_pic
 
@@ -85,7 +84,7 @@ class FireMark():
         file_name = os.path.basename(str(self.save_folder))
         if self.quantity == 1:
             im = self.add_watermark(self.text)
-            im.save(file_name)
+            im.save(file_name, 'png')
 
         else:  # maybe give the option to change num of letter?
             for num in range(self.quantity):
@@ -93,7 +92,7 @@ class FireMark():
                                   for i in range(5)])
                 im = self.add_watermark(digits)
                 # might need a format
-                im.save((f"watermarked{num}.png"))
+                im.save((f"{num}{file_name}"))
 
 
 # TODO: input to name of saved file and a deafault saving name

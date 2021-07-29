@@ -1,6 +1,5 @@
 
 
-import utils
 from fire_mark import FireMark
 import tkinter as tk
 import app_gui
