@@ -4,7 +4,7 @@ Useful utillity functions for firemark
 '''
 
 
-from pathlib import Path
+from pathlib import Path, PurePosixPath
 from tkinter.filedialog import askopenfilename
 from tkinter.filedialog import asksaveasfilename
 from tkinter import Tk     # from tkinter import Tk for Python 3.x
@@ -36,7 +36,7 @@ def get_save_path_from_user():
     filename = asksaveasfilename(defaultextension=".png", filetypes=[(
         "png file", ".png"), ("jpg file", ".jpg"), ("jpeg file", ".jpeg")])
 
-    return Path(filename)
+    return PurePosixPath(filename)
 
 
 def printing_option():

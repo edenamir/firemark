@@ -33,7 +33,7 @@ class FireMark():
         self.quantity = self.options.quantity
         self.opacity = self.options.opacity
         self.image_path = self.options.image_path
-        print(str(self.image_path))
+
         self.save_folder = self.options.save_folder
         self.text = self.options.text
 
@@ -81,18 +81,27 @@ class FireMark():
 
     def watermark_process(self):
 
-        file_name = os.path.basename(str(self.save_folder))
         if self.quantity == 1:
             im = self.add_watermark(self.text)
-            im.save(file_name, 'png')
+            im.save(str(self.save_folder))
 
         else:  # maybe give the option to change num of letter?
             for num in range(self.quantity):
                 digits = "".join([random.choice(string.digits)
                                   for i in range(5)])
                 im = self.add_watermark(digits)
-                # might need a format
-                im.save((f"{num}{file_name}"))
+
+                file_name = os.path.basename(
+                    str(self.save_folder))  # return chosen name of image
+
+               # file_name = self.save_folder.stem
+                save_path = self.save_folder.parent
+                # print("this is save_path "+str(save_path))
+                new_name = str(num)+file_name
+                # print("this is path "+str(new_name))
+                # add numbers to front of name according to num of copies
+                # print(str(save_path.joinpath(str(new_name))))
+                im.save(str(save_path.joinpath(str(new_name))))
 
 
 # TODO: input to name of saved file and a deafault saving name
