@@ -68,12 +68,14 @@ class MenuFrame(tk.Frame):
         self.font_list = ['arial.ttf', 'lucida bright.ttf', 'david.ttf']
         self.load_image_btn = tk.Button(self, text="Selcet image",
                                         font=font.Font(size=11), command=self.load_image)
+        '''
         self.random_check = tk.Checkbutton(
             self, text='Random', onvalue=1, offvalue=0)
-        self.single_mark_check = tk.Checkbutton(
-            self, text='Single', onvalue=1, offvalue=0)
-        self.full_page_mark_check = tk.Checkbutton(
-            self, text='Full page', onvalue=1, offvalue=0)
+        '''
+        self.single_mark_check = ttk.Checkbutton(
+            self, text='Single')
+        self.full_page_mark_check = ttk.Checkbutton(
+            self, text='Full page')
 
         self.enter_text = tk.Entry(self, font=30)
         self.enter_text.insert(0, "Enter text")
@@ -127,13 +129,20 @@ class SaveFrame(tk.Frame):
         self.show_image.place(rely=0.1, relheight=0.35, relwidth=1)
         self.save_image.place(rely=0.5, relheight=0.35, relwidth=1)
 
+    def check_value(self):
+        if(self.root.menu_frame.single_mark_check.state()):
+            return "single"
+        else:
+            return "full page"
+
     def export_image(self):
         self.root.save_path.pick_dir()
         self.text = self.root.menu_frame.enter_text.get()
         self.opacity = self.root.menu_frame.text_opacity.get()
         self.number_of_copies = self.root.menu_frame.number_of_copies.get()
+        self.printing_option = self.check_value()
         self.options = Options(
-            "single", int(self.number_of_copies), self.opacity, self.root.chosen_image_path.path, self.root.save_path.path, self.text)
+            self.printing_option, int(self.number_of_copies), self.opacity, self.root.chosen_image_path.path, self.root.save_path.path, self.text)
 
         self.firemark = FireMark(self.options)
         self.firemark.watermark_process()

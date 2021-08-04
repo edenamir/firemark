@@ -35,7 +35,7 @@ def get_save_path_from_user():
     Tk().withdraw()  # we don't want a full GUI, so keep the root window from appearing
     filename = asksaveasfilename(defaultextension=".png", filetypes=[(
         "png file", ".png"), ("jpg file", ".jpg"), ("jpeg file", ".jpeg")])
-
+    # pure posix for the renaming before save func in fire_mark
     return PurePosixPath(filename)
 
 

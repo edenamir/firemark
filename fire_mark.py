@@ -98,15 +98,10 @@ class FireMark():
                 save_path = self.save_folder.parent
                 # print("this is save_path "+str(save_path))
                 new_name = str(num)+file_name
-                # print("this is path "+str(new_name))
                 # add numbers to front of name according to num of copies
-                # print(str(save_path.joinpath(str(new_name))))
                 im.save(str(save_path.joinpath(str(new_name))))
 
 
-# TODO: input to name of saved file and a deafault saving name
 # TODO: calculate printing pattern
 # TODO: change icon and name
-
-
 # TODO: change menu
