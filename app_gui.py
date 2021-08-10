@@ -72,10 +72,16 @@ class MenuFrame(tk.Frame):
         self.random_check = tk.Checkbutton(
             self, text='Random', onvalue=1, offvalue=0)
         '''
-        self.single_mark_check = ttk.Checkbutton(
-            self, text='Single')
-        self.full_page_mark_check = ttk.Checkbutton(
-            self, text='Full page')
+        # self.single_mark_check = ttk.Checkbutton(
+        #    self, text='Single')
+        # self.full_page_mark_check = ttk.Checkbutton(
+        #    self, text='Full page')
+
+        self.selected_mark_option = tk.StringVar()
+        self.single_mark = ttk.Radiobutton(
+            self, text='single', value='single', variable=self.selected_mark_option)
+        self.full_page_mark = ttk.Radiobutton(
+            self, text='full page', value='full', variable=self.selected_mark_option)
 
         self.enter_text = tk.Entry(self, font=30)
         self.enter_text.insert(0, "Enter text")
@@ -140,7 +146,7 @@ class SaveFrame(tk.Frame):
         self.text = self.root.menu_frame.enter_text.get()
         self.opacity = self.root.menu_frame.text_opacity.get()
         self.number_of_copies = self.root.menu_frame.number_of_copies.get()
-        self.printing_option = self.check_value()
+        self.printing_option = self.root.menu_frame.selected_mark_option.get()
         self.options = Options(
             self.printing_option, int(self.number_of_copies), self.opacity, self.root.chosen_image_path.path, self.root.save_path.path, self.text)
 
@@ -191,10 +197,10 @@ rely=0.25, relwidth=1, relheight=0.15)
 '''
         self.menu_frame.load_image_btn.place(
             relheight=0.10, relwidth=1)
-        self.menu_frame.single_mark_check.place(rely=0.15, relx=0.2,
-                                                relwidth=0.2)
-        self.menu_frame.full_page_mark_check.place(rely=0.15, relx=0.6,
-                                                   relwidth=0.25)
+        self.menu_frame.single_mark.place(rely=0.15, relx=0.2,
+                                          relwidth=0.2)
+        self.menu_frame.full_page_mark.place(rely=0.15, relx=0.6,
+                                             relwidth=0.25)
         self.menu_frame.combo.place(
             rely=0.65, relwidth=1, relheight=0.10)
         self.menu_frame.enter_text.place(rely=0.85, relx=0.4,
