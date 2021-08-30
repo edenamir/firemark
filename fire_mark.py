@@ -16,10 +16,11 @@ some of the functions can transfer into utils
 
 
 class Options():
-    def __init__(self, printing_option, quantity, opacity, image_path, save_folder, text):
+    def __init__(self, printing_option, quantity, opacity, font, image_path, save_folder, text):
         self.printing_option = printing_option
         self.quantity = quantity
         self.opacity = opacity
+        self.font = font
         self.image_path = image_path
         self.save_folder = save_folder
         self.text = text
@@ -32,8 +33,8 @@ class FireMark():
         self.printing_option = self.options.printing_option
         self.quantity = self.options.quantity
         self.opacity = self.options.opacity
+        self.font = self.options.font
         self.image_path = self.options.image_path
-
         self.save_folder = self.options.save_folder
         self.text = self.options.text
 
@@ -50,7 +51,7 @@ class FireMark():
             "RGBA", base_layer.size, (255, 255, 255, 0))
         blank_text_layer = ImageDraw.Draw(blank_text_image)
 
-        font = ImageFont.truetype('arial.ttf', 72)
+        font = ImageFont.truetype(self.font, 72)
         # TODO: choose font and size
         textwidth, textheight = blank_text_layer.textsize(text, font)
 
