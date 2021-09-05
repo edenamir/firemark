@@ -10,6 +10,7 @@ from tkinter.constants import COMMAND
 import utils
 from fire_mark import FireMark, Options
 from PIL import Image, ImageTk
+import math
 
 
 class FilePicker():
@@ -35,27 +36,39 @@ class PreviewFrame(tk.Frame):
         self.root = root
 
     def display_image(self):
-        self.chosen_image = ImageTk.PhotoImage(
-            Image.open(str(self.root.chosen_image_path.path)))
+        self.chosen_image = Image.open(str(self.root.chosen_image_path.path))
+        self.frame_width = self.winfo_width()
+        self.frame_height = self.winfo_height()
+        self.image_resize = ImageTk.PhotoImage(self.resize_image(
+            self.chosen_image, self.frame_width, self.frame_height))
         self.display_label = tk.Label(
-            self, image=self.chosen_image)
+            self, image=self.image_resize)
         self.display_label.pack(side="top", fill="both", expand=True)
-        print("hi")
 
-
-'''
-MenuFrame will define all widgets responsible for the options of the menu
-
-number of copies 
-text or random 
-opacity
-font options
-single water mark or full page
-
-'''
+    def resize_image(self, image, frame_width, frame_height):
+        import pdb
+        pdb.set_trace()
+        img_width, img_height = image.size
+        width_ratio = img_width/frame_width
+        height_ratio = img_height/frame_height
+        new_width = img_width/max(height_ratio, width_ratio)
+        new_height = img_height/max(height_ratio, width_ratio)
+        print(new_width, new_height)
+        return image.resize((int(new_width), int(new_height)), Image.ANTIALIAS)
 
 
 class MenuFrame(tk.Frame):
+
+    '''
+    MenuFrame will define all widgets responsible for the options of the menu
+
+    number of copies 
+    text or random 
+    opacity
+    font options
+    single water mark or full page
+
+    '''
 
     def __init__(self, root, *args, **kwargs):
         tk.Frame.__init__(self, root, *args, **kwargs)
@@ -89,16 +102,15 @@ class MenuFrame(tk.Frame):
         self.root.preview_frame.display_image()
 
 
-'''
-SaveFrame will define all widgets responsible for the save options
-
-show preview
-run and save copies
-
-'''
-
-
 class SaveFrame(tk.Frame):
+    '''
+    SaveFrame will define all widgets responsible for the save options
+
+    show preview
+    run and save copies
+
+    '''
+
     def __init__(self, root, *args, **kwargs):
         tk.Frame.__init__(self, root, *args, **kwargs)
         self.root = root
@@ -131,14 +143,13 @@ class SaveFrame(tk.Frame):
         self.firemark.watermark_process()
 
 
-'''
-GUI will pack all widgets to the grid. config the widgets as the user needs
-maybe convert to a grid system for easier(?) placing
-
-'''
-
-
 class GUI(tk.Frame):
+
+    '''
+    GUI will pack all widgets to the grid. config the widgets as the user needs
+    maybe convert to a grid system for easier(?) placing
+
+    '''
 
     def __init__(self, root, *args, **kwargs):
         tk.Frame.__init__(self, root, *args, **kwargs)
@@ -168,10 +179,6 @@ class GUI(tk.Frame):
         self.save_frame.place(relx=0.05, rely=0.8, relwidth=0.20,
                               relheight=0.1)
 
-        '''
-self.menu_frame.print_option.place(
-rely=0.25, relwidth=1, relheight=0.15)
-'''
         self.menu_frame.load_image_btn.place(
             relheight=0.10, relwidth=1)
         self.menu_frame.single_mark.place(rely=0.15, relx=0.2,
