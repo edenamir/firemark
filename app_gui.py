@@ -46,8 +46,6 @@ class PreviewFrame(tk.Frame):
         self.display_label.pack(side="top", fill="both", expand=True)
 
     def resize_image(self, image, frame_width, frame_height):
-        import pdb
-        pdb.set_trace()
         img_width, img_height = image.size
         width_ratio = img_width/frame_width
         height_ratio = img_height/frame_height
