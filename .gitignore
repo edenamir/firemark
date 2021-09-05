@@ -1,1 +1,7 @@
-__pychache__/*
+__pycache__/*
+.venv/*
+exports/*
+*.png
+*.docx
+temp/*
+test*
