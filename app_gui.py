@@ -11,6 +11,7 @@ import utils
 from fire_mark import FireMark, Options
 from PIL import Image, ImageTk
 import math
+from preview_canvas import PreviewCanvas
 
 
 class FilePicker():
@@ -41,9 +42,11 @@ class PreviewFrame(tk.Frame):
         self.frame_height = self.winfo_height()
         self.image_resize = ImageTk.PhotoImage(self.resize_image(
             self.chosen_image, self.frame_width, self.frame_height))
-        self.display_label = tk.Label(
-            self, image=self.image_resize)
-        self.display_label.pack(side="top", fill="both", expand=True)
+        self.display_canvas = PreviewCanvas(
+            self, image=self.image_resize, text_str=self.root.menu_frame.enter_text.get(),
+            font=self.root.menu_frame.combo.get(), font_size=18, height=self.frame_height, width=self.frame_width)
+        self.display_canvas.pack(
+            side="bottom", fill="both", expand=True)
 
     def resize_image(self, image, frame_width, frame_height):
         img_width, img_height = image.size
