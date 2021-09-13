@@ -12,15 +12,14 @@ is not adapted for a GUI
 some of the functions can transfer into utils
 '''
 
-# printing_option=("single"): str, quantity=(1): int, opacity=(80): int, image_path=None, save_folder=None
-
 
 class Options():
-    def __init__(self, printing_option, quantity, opacity, font, image_path, save_folder, text):
+    def __init__(self, printing_option, quantity, opacity, font, font_size, image_path, save_folder, text):
         self.printing_option = printing_option
         self.quantity = quantity
         self.opacity = opacity
         self.font = font
+        self.font_size = font_size
         self.image_path = image_path
         self.save_folder = save_folder
         self.text = text
@@ -33,6 +32,7 @@ class FireMark():
         self.printing_option = self.options.printing_option
         self.quantity = self.options.quantity
         self.opacity = self.options.opacity
+        self.font_size = self.options.font_size
         self.font = self.options.font
         self.image_path = self.options.image_path
         self.save_folder = self.options.save_folder
@@ -51,7 +51,7 @@ class FireMark():
             "RGBA", base_layer.size, (255, 255, 255, 0))
         blank_text_layer = ImageDraw.Draw(blank_text_image)
 
-        font = ImageFont.truetype(self.font, 72)
+        font = ImageFont.truetype(self.font, self.font_size)
         # TODO: choose font and size
         textwidth, textheight = blank_text_layer.textsize(text, font)
 
