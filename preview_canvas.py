@@ -13,6 +13,8 @@ class PreviewCanvas(tk.Canvas):
         self.font_size = font_size
         self.image_width = self.image.width()
         self.image_height = self.image.height()
+        self.text_x = None
+        self.text_y = None
 
         kwargs['width'] = self.image_width
         kwargs['height'] = self.image_height
@@ -37,4 +39,9 @@ class PreviewCanvas(tk.Canvas):
                 self.get_position()
 
     def get_position(self):
-        print(self.text_x, self.text_y)
+        return(self.text_x, self.text_y)
+
+    def update_text(self, options):
+
+        self.itemconfig(self.text, text=options.text,
+                        font=(options.font, options.font_size))

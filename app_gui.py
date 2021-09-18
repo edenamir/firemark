@@ -44,7 +44,7 @@ class PreviewFrame(tk.Frame):
             self.chosen_image, self.frame_width, self.frame_height))
         self.display_canvas = PreviewCanvas(
             self, image=self.image_resize, text_str=self.root.menu_frame.enter_text.get(),
-            font=self.root.menu_frame.combo_font.get(), font_size=18, height=self.frame_height, width=self.frame_width)
+            font=self.root.menu_frame.combo_font.get(), font_size=self.root.menu_frame.combo_size.get(), height=self.frame_height, width=self.frame_width)
         self.display_canvas.pack(
             side="bottom", fill="both", expand=True)
 
@@ -54,7 +54,6 @@ class PreviewFrame(tk.Frame):
         height_ratio = img_height/frame_height
         new_width = img_width/max(height_ratio, width_ratio)
         new_height = img_height/max(height_ratio, width_ratio)
-        print(new_width, new_height)
         return image.resize((int(new_width), int(new_height)), Image.ANTIALIAS)
 
 
@@ -85,13 +84,13 @@ class MenuFrame(tk.Frame):
         self.full_page_mark = ttk.Radiobutton(
             self, text='full page', value='full', variable=self.selected_mark_option)
 
-        self.enter_text = tk.Entry(self, font=30)
+        self.enter_text = tk.Entry(self, font=20)
         self.enter_text.insert(0, "Enter text")
 
         self.font_style_drop_down()
         self.font_size_drop_down()
 
-        self.number_of_copies = tk.Entry(self, font=30)
+        self.number_of_copies = tk.Entry(self, font=20)
         self.number_of_copies.insert(0, "Number of copies")
 
         self.text_opacity = tk.Scale(
@@ -123,33 +122,27 @@ class SaveFrame(tk.Frame):
         tk.Frame.__init__(self, root, *args, **kwargs)
         self.root = root
 
-        self.show_image = tk.Button(self, text="Show preview",
-                                    font=font.Font(size=11))
+        self.preview_image = tk.Button(self, text="Show preview",
+                                       font=font.Font(size=11), command=self.root.preview_frame.display_canvas.update_text(self.create_options()))
         self.save_image = tk.Button(self, text="Save",
                                     font=font.Font(size=11), command=self.export_image)
 
-        self.show_image.place(rely=0.1, relheight=0.35, relwidth=1)
+        self.preview_image.place(rely=0.1, relheight=0.35, relwidth=1)
         self.save_image.place(rely=0.5, relheight=0.35, relwidth=1)
 
-    def check_value(self):
-        if(self.root.menu_frame.single_mark_check.state()):
-            return "single"
-        else:
-            return "full page"
-
     def export_image(self):
-        self.root.save_path.pick_dir()
-        self.text = self.root.menu_frame.enter_text.get()
-        self.opacity = self.root.menu_frame.text_opacity.get()
-        self.number_of_copies = self.root.menu_frame.number_of_copies.get()
-        self.font = self.root.menu_frame.combo_font.get()
-        self.font_size = self.root.menu_frame.combo_size.get()
-        self.printing_option = self.root.menu_frame.selected_mark_option.get()
-        self.options = Options(
-            self.printing_option, int(self.number_of_copies), self.opacity, self.font, int(self.font_size), self.root.chosen_image_path.path, self.root.save_path.path, self.text)
 
-        self.firemark = FireMark(self.options)
+        self.firemark = FireMark(self.create_options())
         self.firemark.watermark_process()
+
+    def create_options(self):
+        self.root.save_path.pick_dir()
+        return Options(
+            self.root.menu_frame.selected_mark_option.get(), int(self.root.menu_frame.number_of_copies.get(
+            )), self.root.menu_frame.text_opacity.get(), self.root.menu_frame.combo_font.get(),
+            int(self.root.menu_frame.combo_size.get()
+                ), self.root.chosen_image_path.path,
+            self.root.save_path.path, self.root.menu_frame.enter_text.get(), self.root.preview_frame.display_canvas.get_position())
 
 
 class GUI(tk.Frame):

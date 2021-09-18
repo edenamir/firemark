@@ -14,7 +14,7 @@ some of the functions can transfer into utils
 
 
 class Options():
-    def __init__(self, printing_option, quantity, opacity, font, font_size, image_path, save_folder, text):
+    def __init__(self, printing_option, quantity, opacity, font, font_size, image_path, save_folder, text, position):
         self.printing_option = printing_option
         self.quantity = quantity
         self.opacity = opacity
@@ -23,6 +23,7 @@ class Options():
         self.image_path = image_path
         self.save_folder = save_folder
         self.text = text
+        self.position = position
 
 
 class FireMark():
@@ -37,6 +38,7 @@ class FireMark():
         self.image_path = self.options.image_path
         self.save_folder = self.options.save_folder
         self.text = self.options.text
+        self.position = self.options.position
 
     def add_watermark(self, text):
 
@@ -56,14 +58,8 @@ class FireMark():
         textwidth, textheight = blank_text_layer.textsize(text, font)
 
         if self.printing_option == "single":
-            # calculate the x,y coordinates of the text
-            margin = 10
-            x = width - textwidth - margin
-            y = height - textheight - margin
-            # TODO: get x,y from user
-
             # draw watermark in the bottom right corner
-            blank_text_layer.text((x, y), text, font=font,
+            blank_text_layer.text(self.position, text, font=font,
                                   fill=(255, 255, 255, self.opacity))
 
         else:
@@ -101,8 +97,3 @@ class FireMark():
                 new_name = str(num)+file_name
                 # add numbers to front of name according to num of copies
                 im.save(str(save_path.joinpath(str(new_name))))
-
-
-# TODO: calculate printing pattern
-# TODO: change icon and name
-# TODO: change menu
