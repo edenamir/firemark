@@ -5,24 +5,33 @@ from PIL import Image, ImageTk
 
 class PreviewCanvas(tk.Canvas):
 
-    def __init__(self, master, image, text_str, font, font_size, **kwargs):
+    def __init__(self, master, image=None, text_str=None, font=None, font_size=None, **kwargs):
         super().__init__(master, kwargs)
+        self.image = image
+        self.text_str = text_str
+        self.font = font
+        self.font_size = font_size
+        self.text_x = None
+        self.text_y = None
+        self.text = None
+
+        if image != None:
+            self.initialize_display(image, text_str, font, font_size)
+
+    def initialize_display(self, image, text_str, font, font_size):
         self.image = image
         self.text_str = text_str
         self.font = font
         self.font_size = font_size
         self.image_width = self.image.width()
         self.image_height = self.image.height()
-        self.text_x = None
-        self.text_y = None
-
-        kwargs['width'] = self.image_width
-        kwargs['height'] = self.image_height
+        self.text_x = 50
+        self.text_y = 15
 
         self.image = self.create_image(
-            kwargs['width']/2,  kwargs['height']/2, image=self.image, anchor='center')
+            self.image_width/2,  self.image_height/2, image=self.image, anchor='center')
 
-        self.text = self.create_text('50', '15', text=text_str, fill='white', font=(
+        self.text = self.create_text(str(self.text_x), str(self.text_y), text=text_str, fill='white', font=(
             self.font, self.font_size))  # you can define all kinds of text options here
 
         self.bind("<B1-Motion>", self.change_position)

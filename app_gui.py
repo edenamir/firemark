@@ -35,16 +35,18 @@ class PreviewFrame(tk.Frame):
     def __init__(self, root, *args, **kwargs):
         tk.Frame.__init__(self, root, *args, **kwargs)
         self.root = root
+        self.frame_width = self.winfo_width()
+        self.frame_height = self.winfo_height()
+        self.display_canvas = PreviewCanvas(
+            self, height=self.frame_height, width=self.frame_width)
 
     def display_image(self):
         self.chosen_image = Image.open(str(self.root.chosen_image_path.path))
-        self.frame_width = self.winfo_width()
-        self.frame_height = self.winfo_height()
+
         self.image_resize = ImageTk.PhotoImage(self.resize_image(
             self.chosen_image, self.frame_width, self.frame_height))
-        self.display_canvas = PreviewCanvas(
-            self, image=self.image_resize, text_str=self.root.menu_frame.enter_text.get(),
-            font=self.root.menu_frame.combo_font.get(), font_size=self.root.menu_frame.combo_size.get(), height=self.frame_height, width=self.frame_width)
+        self.display_canvas.initialize_display(image=self.image_resize, text_str=self.root.menu_frame.enter_text.get(),
+                                               font=self.root.menu_frame.combo_font.get(), font_size=self.root.menu_frame.combo_size.get())
         self.display_canvas.pack(
             side="bottom", fill="both", expand=True)
 
@@ -123,12 +125,16 @@ class SaveFrame(tk.Frame):
         self.root = root
 
         self.preview_image = tk.Button(self, text="Show preview",
-                                       font=font.Font(size=11), command=self.root.preview_frame.display_canvas.update_text(self.create_options()))
+                                       font=font.Font(size=11), command=self.applay_changes)
         self.save_image = tk.Button(self, text="Save",
                                     font=font.Font(size=11), command=self.export_image)
 
         self.preview_image.place(rely=0.1, relheight=0.35, relwidth=1)
         self.save_image.place(rely=0.5, relheight=0.35, relwidth=1)
+    # Allow passing of the inner function because parameter is hard coded
+
+    def applay_changes(self):
+        self.root.preview_frame.display_canvas.update_text(self.create_options)
 
     def export_image(self):
 
