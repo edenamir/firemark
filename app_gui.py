@@ -35,18 +35,23 @@ class PreviewFrame(tk.Frame):
     def __init__(self, root, *args, **kwargs):
         tk.Frame.__init__(self, root, *args, **kwargs)
         self.root = root
-        self.frame_width = self.winfo_width()
-        self.frame_height = self.winfo_height()
+        self.frame_width = 1
+        self.frame_height = 1
+        self.max_ratio = 1
         self.display_canvas = PreviewCanvas(
             self, height=self.frame_height, width=self.frame_width)
 
     def display_image(self):
         self.chosen_image = Image.open(str(self.root.chosen_image_path.path))
+        self.frame_width = self.winfo_width()
+        self.frame_height = self.winfo_height()
 
         self.image_resize = ImageTk.PhotoImage(self.resize_image(
             self.chosen_image, self.frame_width, self.frame_height))
+        font_size_ratio = int(int(
+            self.root.menu_frame.combo_size.get())/self.max_ratio)
         self.display_canvas.initialize_display(image=self.image_resize, text_str=self.root.menu_frame.enter_text.get(),
-                                               font=self.root.menu_frame.combo_font.get(), font_size=self.root.menu_frame.combo_size.get())
+                                               font=self.root.menu_frame.combo_font.get(), font_size=str(font_size_ratio))
         self.display_canvas.pack(
             side="bottom", fill="both", expand=True)
 
@@ -54,8 +59,9 @@ class PreviewFrame(tk.Frame):
         img_width, img_height = image.size
         width_ratio = img_width/frame_width
         height_ratio = img_height/frame_height
-        new_width = img_width/max(height_ratio, width_ratio)
-        new_height = img_height/max(height_ratio, width_ratio)
+        self.max_ratio = max(height_ratio, width_ratio)
+        new_width = img_width/self.max_ratio
+        new_height = img_height/self.max_ratio
         return image.resize((int(new_width), int(new_height)), Image.ANTIALIAS)
 
 
@@ -64,8 +70,8 @@ class MenuFrame(tk.Frame):
     '''
     MenuFrame will define all widgets responsible for the options of the menu
 
-    number of copies 
-    text or random 
+    number of copies
+    text or random
     opacity
     font options
     single water mark or full page
@@ -134,20 +140,26 @@ class SaveFrame(tk.Frame):
     # Allow passing of the inner function because parameter is hard coded
 
     def applay_changes(self):
-        self.root.preview_frame.display_canvas.update_text(self.create_options)
+        self.root.preview_frame.display_canvas.update_text(
+            self.create_options(0))
 
     def export_image(self):
 
-        self.firemark = FireMark(self.create_options())
+        self.firemark = FireMark(self.create_options(1))
         self.firemark.watermark_process()
 
-    def create_options(self):
-        self.root.save_path.pick_dir()
+    def create_options(self, to_save):
+        if to_save == 1:
+            self.root.save_path.pick_dir()
+            font_size_ratio = int(
+                self.root.menu_frame.combo_size.get())
+        else:
+            font_size_ratio = int(int(
+                self.root.menu_frame.combo_size.get())/self.root.preview_frame.max_ratio)
         return Options(
             self.root.menu_frame.selected_mark_option.get(), int(self.root.menu_frame.number_of_copies.get(
             )), self.root.menu_frame.text_opacity.get(), self.root.menu_frame.combo_font.get(),
-            int(self.root.menu_frame.combo_size.get()
-                ), self.root.chosen_image_path.path,
+            font_size_ratio, self.root.chosen_image_path.path,
             self.root.save_path.path, self.root.menu_frame.enter_text.get(), self.root.preview_frame.display_canvas.get_position())
 
 
@@ -173,7 +185,7 @@ class GUI(tk.Frame):
         #    self, bg='#0d0e10')
         # self.image_label=
         # placing widgets
-        #self.background_label.place(x=0, y=0, relwidth=1, relheight=1)
+        # self.background_label.place(x=0, y=0, relwidth=1, relheight=1)
         # self.background_label.lower()
 
         # self.image_label.place(relx=0.3, rely=0.15, relwidth=0.5,

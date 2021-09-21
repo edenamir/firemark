@@ -30,10 +30,8 @@ class PreviewCanvas(tk.Canvas):
 
         self.image = self.create_image(
             self.image_width/2,  self.image_height/2, image=self.image, anchor='center')
-
         self.text = self.create_text(str(self.text_x), str(self.text_y), text=text_str, fill='white', font=(
             self.font, self.font_size))  # you can define all kinds of text options here
-
         self.bind("<B1-Motion>", self.change_position)
 
     def change_position(self, event):
