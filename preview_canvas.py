@@ -31,21 +31,23 @@ class PreviewCanvas(tk.Canvas):
         self.image = self.create_image(
             self.image_width/2,  self.image_height/2, image=self.image, anchor='center')
         self.text = self.create_text(str(self.text_x), str(self.text_y), text=text_str, fill='white', font=(
-            self.font, self.font_size))  # you can define all kinds of text options here
+            self.font, self.font_size), anchor='nw')
         self.bind("<B1-Motion>", self.change_position)
 
     def change_position(self, event):
         self.text_x = event.x
         self.text_y = event.y
+        print(self.text_x, self.text_y)
 
         # 20x20 square around mouse to make sure text only gets targeted if the mouse is near it
         if self.text in self.find_overlapping(str(self.text_x-10), str(self.text_y-10), str(self.text_x+10), str(self.text_y+10)):
             if (self.text_x < self.image_width and self.text_y < self.image_height):
                 # move text to mouse position
                 self.coords(self.text, self.text_x, self.text_y)
-                self.get_position()
 
     def get_position(self):
+        print("get_position")
+        print(self.text_x, self.text_y)
         return(self.text_x, self.text_y)
 
     def update_text(self, options):

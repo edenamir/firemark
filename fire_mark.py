@@ -72,8 +72,6 @@ class FireMark():
         watermarked_pic = Image.alpha_composite(
             base_layer, blank_text_image)
 
-        # watermarked_pic.show()
-
         return watermarked_pic
 
     def watermark_process(self):

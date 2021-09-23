@@ -35,19 +35,14 @@ class PreviewFrame(tk.Frame):
     def __init__(self, root, *args, **kwargs):
         tk.Frame.__init__(self, root, *args, **kwargs)
         self.root = root
-        self.frame_width = 1
-        self.frame_height = 1
         self.max_ratio = 1
-        self.display_canvas = PreviewCanvas(
-            self, height=self.frame_height, width=self.frame_width)
+        self.display_canvas = PreviewCanvas(self)
 
     def display_image(self):
         self.chosen_image = Image.open(str(self.root.chosen_image_path.path))
-        self.frame_width = self.winfo_width()
-        self.frame_height = self.winfo_height()
 
         self.image_resize = ImageTk.PhotoImage(self.resize_image(
-            self.chosen_image, self.frame_width, self.frame_height))
+            self.chosen_image, self.winfo_width(), self.winfo_height()))
         font_size_ratio = int(int(
             self.root.menu_frame.combo_size.get())/self.max_ratio)
         self.display_canvas.initialize_display(image=self.image_resize, text_str=self.root.menu_frame.enter_text.get(),
@@ -153,14 +148,20 @@ class SaveFrame(tk.Frame):
             self.root.save_path.pick_dir()
             font_size_ratio = int(
                 self.root.menu_frame.combo_size.get())
+            position_ratio = self.calc_position()
         else:
             font_size_ratio = int(int(
                 self.root.menu_frame.combo_size.get())/self.root.preview_frame.max_ratio)
+            position_ratio = self.root.preview_frame.display_canvas.get_position()
         return Options(
             self.root.menu_frame.selected_mark_option.get(), int(self.root.menu_frame.number_of_copies.get(
             )), self.root.menu_frame.text_opacity.get(), self.root.menu_frame.combo_font.get(),
             font_size_ratio, self.root.chosen_image_path.path,
-            self.root.save_path.path, self.root.menu_frame.enter_text.get(), self.root.preview_frame.display_canvas.get_position())
+            self.root.save_path.path, self.root.menu_frame.enter_text.get(), position_ratio)
+
+    def calc_position(self):
+        x, y = self.root.preview_frame.display_canvas.get_position()
+        return (x*self.root.preview_frame.max_ratio, y*self.root.preview_frame.max_ratio)
 
 
 class GUI(tk.Frame):
