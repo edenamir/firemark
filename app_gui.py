@@ -79,23 +79,30 @@ class MenuFrame(tk.Frame):
         self.font_list = ['arial.ttf', 'JOKERMAN.TTF', 'david.ttf']
         self.font_size = [8, 10, 12, 14, 16, 18, 20, 22, 24, 26, 28, 30, 32, 34, 36, 38, 40, 42, 44, 46, 48, 50,
                           52, 54, 56, 58, 60, 62, 64, 66, 68, 70, 72, 74, 76, 78, 80, 82, 84, 86, 88, 90, 92, 94, 96, 98, 100]
-        self.load_image_btn = tk.Button(self, text="Selcet image",
+        self.load_image_btn = tk.Button(self, text="Selcet Image",
                                         font=font.Font(size=11), command=self.load_image)
         self.selected_mark_option = tk.StringVar()
+        self.watermark_type_label = tk.Label(
+            self, text='Type Of Watermark:')
         self.single_mark = ttk.Radiobutton(
-            self, text='single', value='single', variable=self.selected_mark_option)
+            self, text='Single', value='single', variable=self.selected_mark_option)
         self.full_page_mark = ttk.Radiobutton(
-            self, text='full page', value='full', variable=self.selected_mark_option)
+            self, text='Full Page', value='full', variable=self.selected_mark_option)
 
-        self.enter_text = tk.Entry(self, font=20)
-        self.enter_text.insert(0, "Enter text")
-
+        self.enter_text = ttk.Entry(self, font=20)
+        self.enter_text.insert(0, "Enter Text")
+        self.font_label = tk.Label(
+            self, text='Font Style:')
         self.font_style_drop_down()
+        self.font_size_label = tk.Label(
+            self, text='Font Size:')
         self.font_size_drop_down()
 
-        self.number_of_copies = tk.Entry(self, font=20)
-        self.number_of_copies.insert(0, "Number of copies")
+        self.number_of_copies = ttk.Entry(self, font=20)
+        self.number_of_copies.insert(0, "Number Of Copies")
 
+        self.opacity_label = tk.Label(
+            self, text='Opacity Of Watermark:')
         self.text_opacity = tk.Scale(
             self, from_=1, to=100, orient="horizontal")
 
@@ -199,15 +206,19 @@ class GUI(tk.Frame):
 
         self.save_frame.place(relx=0.05, rely=0.8, relwidth=0.20,
                               relheight=0.1)
-
+        # placing menu widgets
         self.menu_frame.load_image_btn.place(
             relheight=0.10, relwidth=1)
-        self.menu_frame.single_mark.place(rely=0.15, relx=0.2,
+
+        self.menu_frame.watermark_type_label.place(rely=0.13)
+        self.menu_frame.single_mark.place(rely=0.18, relx=0.2,
                                           relwidth=0.2)
-        self.menu_frame.full_page_mark.place(rely=0.15, relx=0.6,
+        self.menu_frame.full_page_mark.place(rely=0.18, relx=0.6,
                                              relwidth=0.25)
+        self.menu_frame.font_label.place(rely=0.6)
         self.menu_frame.combo_font.place(
             rely=0.65, relwidth=0.45, relheight=0.1)
+        self.menu_frame.font_size_label.place(rely=0.6, relx=0.55)
         self.menu_frame.combo_size.place(
             rely=0.65, relx=0.55, relwidth=0.45, relheight=0.1)
         self.menu_frame.enter_text.place(rely=0.85,
@@ -215,8 +226,9 @@ class GUI(tk.Frame):
 
         self.menu_frame.number_of_copies.place(rely=0.45,
                                                relwidth=1, relheight=0.10)
+        self.menu_frame.opacity_label.place(rely=0.25)
         self.menu_frame.text_opacity.place(
-            rely=0.25, relheight=0.10, relwidth=1)
+            rely=0.3, relheight=0.10, relwidth=1)
     """
     font_title = font.Font(size=10)
     title_label = tk.Label(root, text="preview:", font=font_preview)
