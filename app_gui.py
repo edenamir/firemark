@@ -3,7 +3,7 @@
 GUI for fire_mark
 
 '''
-from tkinter import font
+from tkinter import PhotoImage, font
 import tkinter as tk
 from tkinter import ttk
 from tkinter.constants import COMMAND
@@ -76,33 +76,36 @@ class MenuFrame(tk.Frame):
     def __init__(self, root, *args, **kwargs):
         tk.Frame.__init__(self, root, *args, **kwargs)
         self.root = root
-        self.font_list = ['arial.ttf', 'JOKERMAN.TTF', 'david.ttf']
+        self.font_list = ['arial.ttf', 'jokerman.TTF', 'david.ttf']
         self.font_size = [8, 10, 12, 14, 16, 18, 20, 22, 24, 26, 28, 30, 32, 34, 36, 38, 40, 42, 44, 46, 48, 50,
                           52, 54, 56, 58, 60, 62, 64, 66, 68, 70, 72, 74, 76, 78, 80, 82, 84, 86, 88, 90, 92, 94, 96, 98, 100]
-        self.load_image_btn = tk.Button(self, text="Selcet Image",
-                                        font=font.Font(size=11), command=self.load_image)
+        self.select_button_image = ImageTk.PhotoImage(Image.open(
+            r"C:\Workspace\fire_mark\gui\button_select-image.png"))
+
+        self.load_image_btn = tk.Button(self, image=self.select_button_image,
+                                        font=font.Font(size=11), command=self.load_image, borderwidth=0)
         self.selected_mark_option = tk.StringVar()
         self.watermark_type_label = tk.Label(
-            self, text='Type Of Watermark:')
+            self, text='Type Of Watermark:', font=font.Font(size=11))
         self.single_mark = ttk.Radiobutton(
             self, text='Single', value='single', variable=self.selected_mark_option)
         self.full_page_mark = ttk.Radiobutton(
             self, text='Full Page', value='full', variable=self.selected_mark_option)
 
-        self.enter_text = ttk.Entry(self, font=20)
+        self.enter_text = tk.Entry(self, font=20, borderwidth=0)
         self.enter_text.insert(0, "Enter Text")
         self.font_label = tk.Label(
-            self, text='Font Style:')
+            self, text='Font Style:', font=font.Font(size=11))
         self.font_style_drop_down()
         self.font_size_label = tk.Label(
-            self, text='Font Size:')
+            self, text='Font Size:', font=font.Font(size=11))
         self.font_size_drop_down()
 
-        self.number_of_copies = ttk.Entry(self, font=20)
+        self.number_of_copies = tk.Entry(self, font=20, borderwidth=0)
         self.number_of_copies.insert(0, "Number Of Copies")
 
         self.opacity_label = tk.Label(
-            self, text='Opacity Of Watermark:')
+            self, text='Opacity Of Watermark:', font=font.Font(size=11))
         self.text_opacity = tk.Scale(
             self, from_=1, to=100, orient="horizontal")
 
@@ -131,14 +134,15 @@ class SaveFrame(tk.Frame):
     def __init__(self, root, *args, **kwargs):
         tk.Frame.__init__(self, root, *args, **kwargs)
         self.root = root
+        self.save_button_image = ImageTk.PhotoImage(Image.open(
+            r"C:\Workspace\fire_mark\gui\button_save-image.png"))
+        self.preview_button_image = ImageTk.PhotoImage(Image.open(
+            r"C:\Workspace\fire_mark\gui\button_preview-image.png"))
+        self.preview_image = tk.Button(self, image=self.preview_button_image,
+                                       font=font.Font(size=11), command=self.applay_changes, borderwidth=0)
+        self.save_image = tk.Button(self, image=self.save_button_image,
+                                    font=font.Font(size=11), command=self.export_image, borderwidth=0)
 
-        self.preview_image = tk.Button(self, text="Show preview",
-                                       font=font.Font(size=11), command=self.applay_changes)
-        self.save_image = tk.Button(self, text="Save",
-                                    font=font.Font(size=11), command=self.export_image)
-
-        self.preview_image.place(rely=0.1, relheight=0.35, relwidth=1)
-        self.save_image.place(rely=0.5, relheight=0.35, relwidth=1)
     # Allow passing of the inner function because parameter is hard coded
 
     def applay_changes(self):
@@ -181,36 +185,25 @@ class GUI(tk.Frame):
 
     def __init__(self, root, *args, **kwargs):
         tk.Frame.__init__(self, root, *args, **kwargs)
-        self.dic = {}
         self.chosen_image_path = FilePicker()
         self.save_path = DirPicker()
         self.root = root
+        self.root.configure(background='white')
         self.preview_frame = PreviewFrame(self, bg='#232426')
-        self.menu_frame = MenuFrame(self, bg='#232426')
-        self.save_frame = SaveFrame(self, bg='#232426')
-
-        # self.background_label = tk.Label(
-        #    self, bg='#0d0e10')
-        # self.image_label=
-        # placing widgets
-        # self.background_label.place(x=0, y=0, relwidth=1, relheight=1)
-        # self.background_label.lower()
-
-        # self.image_label.place(relx=0.3, rely=0.15, relwidth=0.5,
-        #                       relheight=0.75)
-
+        self.menu_frame = MenuFrame(self)
+        self.save_frame = SaveFrame(self)
         self.preview_frame.place(relx=0.3, rely=0.1, relwidth=0.6,
                                  relheight=0.8)
-        self.menu_frame.place(relx=0.05, rely=0.15, relwidth=0.20,
+        self.menu_frame.place(relx=0.05, rely=0.1, relwidth=0.15,
                               relheight=0.6)
 
-        self.save_frame.place(relx=0.05, rely=0.8, relwidth=0.20,
-                              relheight=0.1)
-        # placing menu widgets
+        self.save_frame.place(relx=0.05, rely=0.7, relwidth=0.15,
+                              relheight=0.2)
+        # Placing menu widgets
         self.menu_frame.load_image_btn.place(
-            relheight=0.10, relwidth=1)
+            relheight=0.12, relwidth=1)
 
-        self.menu_frame.watermark_type_label.place(rely=0.13)
+        self.menu_frame.watermark_type_label.place(rely=0.12)
         self.menu_frame.single_mark.place(rely=0.18, relx=0.2,
                                           relwidth=0.2)
         self.menu_frame.full_page_mark.place(rely=0.18, relx=0.6,
@@ -229,8 +222,8 @@ class GUI(tk.Frame):
         self.menu_frame.opacity_label.place(rely=0.25)
         self.menu_frame.text_opacity.place(
             rely=0.3, relheight=0.10, relwidth=1)
-    """
-    font_title = font.Font(size=10)
-    title_label = tk.Label(root, text="preview:", font=font_preview)
-    title_label.place(relx=0.05, rely=0.06)
-    """
+
+        # Placing save and preview widgets
+        self.save_frame.preview_image.place(
+            rely=0.1, relheight=0.35, relwidth=1)
+        self.save_frame.save_image.place(rely=0.5, relheight=0.35, relwidth=1)
