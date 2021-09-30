@@ -28,7 +28,7 @@ class PreviewCanvas(tk.Canvas):
         self.text_x = 50
         self.text_y = 15
 
-        self.image = self.create_image(
+        self.canvas_image_id = self.create_image(
             self.image_width/2,  self.image_height/2, image=self.image, anchor='center')
         self.text = self.create_text(str(self.text_x), str(self.text_y), text=text_str, fill='white', font=(
             self.font, self.font_size), anchor='nw')
@@ -37,7 +37,6 @@ class PreviewCanvas(tk.Canvas):
     def change_position(self, event):
         self.text_x = event.x
         self.text_y = event.y
-        print(self.text_x, self.text_y)
 
         # 20x20 square around mouse to make sure text only gets targeted if the mouse is near it
         if self.text in self.find_overlapping(str(self.text_x-10), str(self.text_y-10), str(self.text_x+10), str(self.text_y+10)):
@@ -46,8 +45,6 @@ class PreviewCanvas(tk.Canvas):
                 self.coords(self.text, self.text_x, self.text_y)
 
     def get_position(self):
-        print("get_position")
-        print(self.text_x, self.text_y)
         return(self.text_x, self.text_y)
 
     def update_text(self, options):

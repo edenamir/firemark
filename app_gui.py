@@ -13,6 +13,16 @@ from PIL import Image, ImageTk
 import math
 from preview_canvas import PreviewCanvas
 
+BG_COLOR = '#3F51B5'
+
+
+class StyleManager():
+
+    def __init__(self):
+        style = ttk.Style()
+        style.configure("BW.TRadiobutton", foreground="white",
+                        background=BG_COLOR)
+
 
 class FilePicker():
 
@@ -36,7 +46,7 @@ class PreviewFrame(tk.Frame):
         tk.Frame.__init__(self, root, *args, **kwargs)
         self.root = root
         self.max_ratio = 1
-        self.display_canvas = PreviewCanvas(self)
+        self.display_canvas = PreviewCanvas(self, bg='white', bd=0)
 
     def display_image(self):
         self.chosen_image = Image.open(str(self.root.chosen_image_path.path))
@@ -83,34 +93,31 @@ class MenuFrame(tk.Frame):
             r"C:\Workspace\fire_mark\gui\button_select-image.png"))
 
         self.load_image_btn = tk.Button(self, image=self.select_button_image,
-                                        font=font.Font(size=11), command=self.load_image, borderwidth=0, bg='#3F51B5')
+                                        font=font.Font(size=11), command=self.load_image, borderwidth=0, bg=BG_COLOR)
         self.selected_mark_option = tk.StringVar()
         self.watermark_type_label = tk.Label(
-            self, text='Type Of Watermark:', font=font.Font(size=11), bg='#3F51B5', fg='white')
+            self, text='Type Of Watermark:', font=font.Font(size=11), bg=BG_COLOR, fg='white')
         self.single_mark = ttk.Radiobutton(
-            self, text='Single', value='single', variable=self.selected_mark_option)
-        self.style = ttk.Style(self)
-        self.style.configure(
-            'TCheckbutton', background='#3F51B5', foreground='white')
+            self, text='Single', value='single', style="BW.TRadiobutton", variable=self.selected_mark_option)
         self.full_page_mark = ttk.Radiobutton(
-            self, text='Full Page', value='full', variable=self.selected_mark_option)
+            self, text='Full Page', value='full', style="BW.TRadiobutton", variable=self.selected_mark_option)
 
         self.enter_text = tk.Entry(self, font=11, borderwidth=0)
         self.enter_text.insert(0, "Enter Text")
         self.font_label = tk.Label(
-            self, text='Font Style:', font=font.Font(size=11), bg='#3F51B5', fg='white')
+            self, text='Font Style:', font=font.Font(size=11), bg=BG_COLOR, fg='white')
         self.font_style_drop_down()
         self.font_size_label = tk.Label(
-            self, text='Font Size:', font=font.Font(size=11), bg='#3F51B5', fg='white')
+            self, text='Font Size:', font=font.Font(size=11), bg=BG_COLOR, fg='white')
         self.font_size_drop_down()
 
         self.number_of_copies = tk.Entry(self, font=11, borderwidth=0)
         self.number_of_copies.insert(0, "Number Of Copies")
 
         self.opacity_label = tk.Label(
-            self, text='Opacity Of Watermark:', font=font.Font(size=11), bg='#3F51B5', fg='white')
+            self, text='Opacity Of Watermark:', font=font.Font(size=11), bg=BG_COLOR, fg='white')
         self.text_opacity = tk.Scale(
-            self, from_=1, to=100, orient="horizontal", bg='#3F51B5', bd=0, fg='white')
+            self, from_=1, to=100, orient="horizontal", bg=BG_COLOR, bd=0, fg='white')
 
     def font_style_drop_down(self):
         self.combo_font = ttk.Combobox(self, value=self.font_list)
@@ -142,9 +149,9 @@ class SaveFrame(tk.Frame):
         self.preview_button_image = ImageTk.PhotoImage(Image.open(
             r"C:\Workspace\fire_mark\gui\button_preview-image.png"))
         self.preview_image = tk.Button(self, image=self.preview_button_image,
-                                       font=font.Font(size=11), command=self.applay_changes, borderwidth=0, bg='#3F51B5')
+                                       font=font.Font(size=11), command=self.applay_changes, borderwidth=0, bg=BG_COLOR)
         self.save_image = tk.Button(self, image=self.save_button_image,
-                                    font=font.Font(size=11), command=self.export_image, borderwidth=0, bg='#3F51B5')
+                                    font=font.Font(size=11), command=self.export_image, borderwidth=0, bg=BG_COLOR)
 
     # Allow passing of the inner function because parameter is hard coded
 
@@ -188,15 +195,16 @@ class GUI(tk.Frame):
 
     def __init__(self, root, *args, **kwargs):
         tk.Frame.__init__(self, root, *args, **kwargs)
+        self.style = StyleManager()
         self.chosen_image_path = FilePicker()
         self.save_path = DirPicker()
         self.root = root
         self.back_image = ImageTk.PhotoImage(Image.open(
             r"C:\Workspace\fire_mark\gui\back.png"))
         self.background_label = tk.Label(self, image=self.back_image)
-        self.preview_frame = PreviewFrame(self)
-        self.menu_frame = MenuFrame(self, bg='#3F51B5')
-        self.save_frame = SaveFrame(self, bg='#3F51B5')
+        self.preview_frame = PreviewFrame(self, bg='white')
+        self.menu_frame = MenuFrame(self, bg=BG_COLOR)
+        self.save_frame = SaveFrame(self, bg=BG_COLOR)
         self.background_label.place(relwidth=1, relheight=1)
         self.background_label.lower()
         self.preview_frame.place(relx=0.3, rely=0.1, relwidth=0.6,
