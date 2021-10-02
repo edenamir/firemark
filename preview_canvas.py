@@ -28,8 +28,10 @@ class PreviewCanvas(tk.Canvas):
         self.text_x = 50
         self.text_y = 15
 
+        # self.canvas_image_id = self.create_image(
+        #    self.image_width/2,  self.image_height/2, image=self.image, anchor='center')
         self.canvas_image_id = self.create_image(
-            self.image_width/2,  self.image_height/2, image=self.image, anchor='center')
+            0,  0, image=self.image, anchor='nw')
         self.text = self.create_text(str(self.text_x), str(self.text_y), text=text_str, fill='white', font=(
             self.font, self.font_size), anchor='nw')
         self.bind("<B1-Motion>", self.change_position)
@@ -40,7 +42,7 @@ class PreviewCanvas(tk.Canvas):
 
         # 20x20 square around mouse to make sure text only gets targeted if the mouse is near it
         if self.text in self.find_overlapping(str(self.text_x-10), str(self.text_y-10), str(self.text_x+10), str(self.text_y+10)):
-            if (self.text_x < self.image_width and self.text_y < self.image_height):
+            if (self.text_x < self.image_width and self.text_y < self.image_height) and (self.text_x > 0 or self.text_y > 0):
                 # move text to mouse position
                 self.coords(self.text, self.text_x, self.text_y)
 
@@ -51,3 +53,7 @@ class PreviewCanvas(tk.Canvas):
 
         self.itemconfig(self.text, text=options.text,
                         font=(options.font, options.font_size))
+
+    def update_image(self, new_image, hide_text=False):
+        self.new_image = new_image
+        self.itemconfig(self.canvas_image_id, image=self.new_image)

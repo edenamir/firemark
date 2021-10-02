@@ -40,11 +40,10 @@ class FireMark():
         self.text = self.options.text
         self.position = self.options.position
 
-    def add_watermark(self, text):
+    def add_watermark(self, text, image):
 
         # Create an Image Object from an Image
-        base_layer = Image.open(str(self.image_path)).convert("RGBA")
-        # pdb.set_trace()
+        base_layer = image.convert("RGBA")
 
         width, height = base_layer.size
 
@@ -76,15 +75,16 @@ class FireMark():
 
     def watermark_process(self):
 
+        image = Image.open(str(self.image_path))
         if self.quantity == 1:
-            im = self.add_watermark(self.text)
+            im = self.add_watermark(self.text, image)
             im.save(str(self.save_folder))
 
         else:  # maybe give the option to change num of letter?
             for num in range(self.quantity):
                 digits = "".join([random.choice(string.digits)
                                   for i in range(5)])
-                im = self.add_watermark(digits)
+                im = self.add_watermark(digits, image)
 
                 file_name = os.path.basename(
                     str(self.save_folder))  # return chosen name of image

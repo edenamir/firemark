@@ -51,11 +51,11 @@ class PreviewFrame(tk.Frame):
     def display_image(self):
         self.chosen_image = Image.open(str(self.root.chosen_image_path.path))
 
-        self.image_resize = ImageTk.PhotoImage(self.resize_image(
-            self.chosen_image, self.winfo_width(), self.winfo_height()))
+        self.image_resize = self.resize_image(
+            self.chosen_image, self.winfo_width(), self.winfo_height())
         font_size_ratio = int(int(
             self.root.menu_frame.combo_size.get())/self.max_ratio)
-        self.display_canvas.initialize_display(image=self.image_resize, text_str=self.root.menu_frame.enter_text.get(),
+        self.display_canvas.initialize_display(image=ImageTk.PhotoImage(self.image_resize), text_str=self.root.menu_frame.enter_text.get(),
                                                font=self.root.menu_frame.combo_font.get(), font_size=str(font_size_ratio))
         self.display_canvas.pack(
             side="bottom", fill="both", expand=True)
@@ -156,8 +156,16 @@ class SaveFrame(tk.Frame):
     # Allow passing of the inner function because parameter is hard coded
 
     def applay_changes(self):
-        self.root.preview_frame.display_canvas.update_text(
-            self.create_options(0))
+        options = self.create_options(0)
+        if options.printing_option == 'single':
+            self.root.preview_frame.display_canvas.update_image(
+                self.root.preview_frame.display_canvas.image)
+            self.root.preview_frame.display_canvas.update_text(options)
+        else:  # full page
+            firemark = FireMark(options)
+            image_new = ImageTk.PhotoImage(
+                firemark.add_watermark(options.text, self.root.preview_frame.image_resize))
+            self.root.preview_frame.display_canvas.update_image(image_new)
 
     def export_image(self):
 
