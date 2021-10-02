@@ -55,7 +55,7 @@ class PreviewFrame(tk.Frame):
             self.chosen_image, self.winfo_width(), self.winfo_height())
         font_size_ratio = int(int(
             self.root.menu_frame.combo_size.get())/self.max_ratio)
-        self.display_canvas.initialize_display(image=ImageTk.PhotoImage(self.image_resize), text_str=self.root.menu_frame.enter_text.get(),
+        self.display_canvas.initialize_display(image=self.image_resize, text_str=self.root.menu_frame.enter_text.get(),
                                                font=self.root.menu_frame.combo_font.get(), font_size=str(font_size_ratio))
         self.display_canvas.pack(
             side="bottom", fill="both", expand=True)
@@ -159,13 +159,13 @@ class SaveFrame(tk.Frame):
         options = self.create_options(0)
         if options.printing_option == 'single':
             self.root.preview_frame.display_canvas.update_image(
-                self.root.preview_frame.display_canvas.image)
+                self.root.preview_frame.image_resize)
             self.root.preview_frame.display_canvas.update_text(
                 options.text, options.font, options.font_size)
         else:  # full page
             firemark = FireMark(options)
-            image_new = ImageTk.PhotoImage(
-                firemark.add_watermark(options.text, self.root.preview_frame.image_resize))
+            image_new = firemark.add_watermark(
+                options.text, self.root.preview_frame.image_resize)
             self.root.preview_frame.display_canvas.update_image(
                 image_new)
             self.root.preview_frame.display_canvas.update_text(

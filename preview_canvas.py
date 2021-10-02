@@ -7,7 +7,7 @@ class PreviewCanvas(tk.Canvas):
 
     def __init__(self, master, image=None, text_str=None, font=None, font_size=None, **kwargs):
         super().__init__(master, kwargs)
-        self.image = image
+        self._image = None
         self.text_str = text_str
         self.font = font
         self.font_size = font_size
@@ -28,8 +28,6 @@ class PreviewCanvas(tk.Canvas):
         self.text_x = 50
         self.text_y = 15
 
-        # self.canvas_image_id = self.create_image(
-        #    self.image_width/2,  self.image_height/2, image=self.image, anchor='center')
         self.canvas_image_id = self.create_image(
             0,  0, image=self.image, anchor='nw')
         self.text = self.create_text(str(self.text_x), str(self.text_y), text=text_str, fill='white', font=(
@@ -55,5 +53,20 @@ class PreviewCanvas(tk.Canvas):
                         font=(new_font, new_size))
 
     def update_image(self, new_image,):
-        self.new_image = new_image
-        self.itemconfig(self.canvas_image_id, image=self.new_image)
+        self.image = new_image
+        self.itemconfig(self.canvas_image_id, image=self.image)
+
+    # using property decorator
+    # a getter function
+    @property
+    def image(self):
+        return self._image
+
+    # a setter function
+    @image.setter
+    def image(self, new_image):
+        if issubclass(type(new_image), Image.Image):
+            new_image = ImageTk.PhotoImage(new_image)
+        elif(type(new_image) != ImageTk):
+            raise ValueError("Not a recognized image type")
+        self._image = new_image
