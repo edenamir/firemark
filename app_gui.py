@@ -160,12 +160,16 @@ class SaveFrame(tk.Frame):
         if options.printing_option == 'single':
             self.root.preview_frame.display_canvas.update_image(
                 self.root.preview_frame.display_canvas.image)
-            self.root.preview_frame.display_canvas.update_text(options)
+            self.root.preview_frame.display_canvas.update_text(
+                options.text, options.font, options.font_size)
         else:  # full page
             firemark = FireMark(options)
             image_new = ImageTk.PhotoImage(
                 firemark.add_watermark(options.text, self.root.preview_frame.image_resize))
-            self.root.preview_frame.display_canvas.update_image(image_new)
+            self.root.preview_frame.display_canvas.update_image(
+                image_new)
+            self.root.preview_frame.display_canvas.update_text(
+                "", options.font, 0)
 
     def export_image(self):
 

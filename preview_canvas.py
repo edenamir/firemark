@@ -49,11 +49,11 @@ class PreviewCanvas(tk.Canvas):
     def get_position(self):
         return(self.text_x, self.text_y)
 
-    def update_text(self, options):
+    def update_text(self, new_text, new_font, new_size):
 
-        self.itemconfig(self.text, text=options.text,
-                        font=(options.font, options.font_size))
+        self.itemconfig(self.text, text=new_text,
+                        font=(new_font, new_size))
 
-    def update_image(self, new_image, hide_text=False):
+    def update_image(self, new_image,):
         self.new_image = new_image
         self.itemconfig(self.canvas_image_id, image=self.new_image)
