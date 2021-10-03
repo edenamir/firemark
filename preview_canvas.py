@@ -38,6 +38,8 @@ class PreviewCanvas(tk.Canvas):
         initialize image and text within the PreviewCanvas
     change_position()
         change position of text object
+    get_position()
+        return coordinates of text
     update_text()
         update text object parameters
     update_image()
@@ -120,8 +122,7 @@ class PreviewCanvas(tk.Canvas):
                 self.coords(self.text, self.text_x, self.text_y)
 
     def get_position(self):
-        """
-
+        """Return coordinates of text.
         """
         return(self.text_x, self.text_y)
 
