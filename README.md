@@ -5,7 +5,7 @@
 * [Technologies](#technologies)
 * [Importent notes](#Importent-notes)
 * [Known issues](#Known-issues)
-* [Setup](#setup)
+
 
 ## General info
 This project is a simple watermarking app. It has a few options of watermark types to cutomize an image to your liking:
