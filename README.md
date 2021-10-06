@@ -2,7 +2,7 @@
 
 ## Table of contents
 * [General info](#general-info)
-* [Importent notes](#Importent-notes)
+* [Important notes](#Importent-notes)
 * [Known issues](#Known-issues)
 * [Technologies](#technologies)
 
@@ -17,10 +17,9 @@ This project is a simple watermarking app. It has a few options of watermark typ
 
 Each type can have differente opacity, text size and fonts.\
 After each change clicking the preview image button will display an example of the watermark on the image
-## Importent notes
-1. Single watermark and number of copies is geater than 1- the example text on the display will be the text in Enter Text entry.
-2. All fileds of the menu must be filled in order for the app to work proparly
-3. When saving more than one copy, the name of the files will be #chosen_name where # start with 0 up to number of copies\
+## Important notes
+1. All fileds of the menu must be filled in order for the app to work proparly
+2. When saving more than one copy, the name of the files will be #chosen_name where # start with 0 up to number of copies\
 Ex: 0new_image.png
 ## Known issues
 1. Only two fonts are availble
