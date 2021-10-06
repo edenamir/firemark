@@ -1,6 +1,4 @@
 
-
-# Import required Image library
 from PIL import Image, ImageDraw, ImageFont
 import string
 import random

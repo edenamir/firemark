@@ -1,8 +1,8 @@
-'''
+"""
 
-GUI for fire_mark
+GUI part fire_mark
 
-'''
+"""
 from tkinter import PhotoImage, font
 import tkinter as tk
 from tkinter import ttk
@@ -10,7 +10,6 @@ from tkinter.constants import COMMAND
 import utils
 from fire_mark import FireMark, Options
 from PIL import Image, ImageTk
-import math
 from preview_canvas import PreviewCanvas
 
 BG_COLOR = '#3F51B5'
@@ -114,11 +113,11 @@ class PreviewFrame(tk.Frame):
             side="bottom", fill="both", expand=True)
 
     def resize_image(self, image, frame_width, frame_height):
-        """Create a resized version of original image 
+        """Create a resized version of original image
            according to max retio
 
         Calculate hight and width ratios between image and frame.
-        Cave max ratio so image will be a big as possible 
+        Cave max ratio so image will be a big as possible
         Resize image.
 
         Parameters
@@ -165,7 +164,7 @@ class MenuFrame(tk.Frame):
     watermark_type_label : tk.Label
         Text- 'Type Of Watermark:'
     single_mark : ttk.Radiobutton
-        The radiobutton to watermark in a unique space 
+        The radiobutton to watermark in a unique space
     full_page_mark : ttk.Radiobutton
         The radiobutton to watermark multipule watermarks on the image
     enter_text : tk.Entry
@@ -186,7 +185,7 @@ class MenuFrame(tk.Frame):
     -------
     font_style_drop_down()
         Create drop down menu of font types
-    font_size_drop_down()   
+    font_size_drop_down()
         Create drop down menu of font sizes
     load_image()
         User picks image and path is sent to display_image func
@@ -201,8 +200,7 @@ class MenuFrame(tk.Frame):
         tk.Frame.__init__(self, root, *args, **kwargs)
         self.root = root
         # Avaliable font types
-        self.font_list = ['arial.ttf', 'jokerman.TTF',
-                          'david.ttf']
+        self.font_list = ['arial', 'david']
         # Avaliable font sizes
         self.font_size = [8, 10, 12, 14, 16, 18, 20, 22, 24, 26, 28, 30, 32, 34, 36, 38, 40, 42, 44, 46, 48, 50,
                           52, 54, 56, 58, 60, 62, 64, 66, 68, 70, 72, 74, 76, 78, 80, 82, 84, 86, 88, 90, 92, 94, 96, 98, 100]
@@ -239,7 +237,7 @@ class MenuFrame(tk.Frame):
     def font_style_drop_down(self):
         """Create a drop down menu for font types.
 
-            Defluat font style is ariel.ttf 
+            Defluat font style is ariel.ttf
         """
         self.combo_font = ttk.Combobox(self, value=self.font_list)
         self.combo_font.current(0)
@@ -286,7 +284,7 @@ class SaveFrame(tk.Frame):
     export_image()
         execute saving of watermarked image
     create_options()
-        create an Option class based on the parameters 
+        create an Option class based on the parameters
         gathered from user
     calc_position()
         return the coordinates of text relative to the original image
@@ -309,12 +307,12 @@ class SaveFrame(tk.Frame):
     def applay_changes(self):
         """collect changes of preferences and display the updated image.
 
-            Create an option class. 
+            Create an option class.
             If printing options is single, send resized image to display
             by calling update_image.
             Update position,font and size of text by calling update_text
             else printing option is full page, create a firemark class
-            and display the watermarkd image and not a preview. 
+            and display the watermarkd image and not a preview.
             Update text to an empty str by calling update_text
             (defalut is full page)
 
@@ -337,7 +335,7 @@ class SaveFrame(tk.Frame):
     def export_image(self):
         """execute saving of watermarked image.
 
-        Create a firemark class by calling create_options 
+        Create a firemark class by calling create_options
         and execute the watermarking and saving procces
 
         """
@@ -345,7 +343,7 @@ class SaveFrame(tk.Frame):
         self.firemark.watermark_process()
 
     def create_options(self, to_save=False):
-        """Create an Option class based on the parameters 
+        """Create an Option class based on the parameters
            collected from menu_frame widgets .
         If the argument to_save isn't passed in, defalut is False
 
@@ -359,23 +357,29 @@ class SaveFrame(tk.Frame):
         Options
             an option class used for displaying image or saving
         """
+        # As defualt print the real digits on the image
+        text = self.root.menu_frame.enter_text.get()
         if to_save:
             self.root.save_path.pick_dir()
             font_size_ratio = int(
                 self.root.menu_frame.combo_size.get())
             # Add the relative position of text to options
             position_ratio = self.calc_position()
+
         else:
             # Add the real size of the text to options
             font_size_ratio = int(int(
                 self.root.menu_frame.combo_size.get())/self.root.preview_frame.max_ratio)
             # Add the real position of text to options
             position_ratio = self.root.preview_frame.display_canvas.get_position()
+            # Display a pattern of a random number when num of copies bigger than one
+            if(int(self.root.menu_frame.number_of_copies.get()) > 1):
+                text = "#####"
         return Options(
             self.root.menu_frame.selected_mark_option.get(), int(self.root.menu_frame.number_of_copies.get(
             )), self.root.menu_frame.text_opacity.get(), self.root.menu_frame.combo_font.get(),
             font_size_ratio, self.root.chosen_image_path.path,
-            self.root.save_path.path, self.root.menu_frame.enter_text.get(), position_ratio)
+            self.root.save_path.path, text, position_ratio)
 
     def calc_position(self):
         """Calculate the real position of text for the original image.
@@ -432,6 +436,8 @@ class GUI(tk.Frame):
         self.menu_frame = MenuFrame(self, bg=BG_COLOR)
         self.save_frame = SaveFrame(self, bg=BG_COLOR)
         self.background_label.place(relwidth=1, relheight=1)
+        self.credit_label = tk.Label(
+            self, text='Created by Eden Amir', font=font.Font(size=7), bg='white', fg='gray')
         # Position the background lower than frames
         self.background_label.lower()
         self.preview_frame.place(relx=0.3, rely=0.1, relwidth=0.6,
@@ -441,6 +447,7 @@ class GUI(tk.Frame):
 
         self.save_frame.place(relx=0.05, rely=0.7, relwidth=0.15,
                               relheight=0.17)
+        self.credit_label.place(relx=0.9, rely=0.95)
         # Placing menu widgets
         self.menu_frame.load_image_btn.place(
             relheight=0.12, relwidth=1)
