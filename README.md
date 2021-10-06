@@ -2,8 +2,8 @@
 
 ## Table of contents
 * [General info](#general-info)
-* [Important notes](#Importent-notes)
-* [Known issues](#Known-issues)
+* [Important notes](#important-notes)
+* [Known issues](#known-issues)
 * [Technologies](#technologies)
 
 
@@ -16,7 +16,11 @@ This project is a simple watermarking app. It has a few options of watermark typ
 4. Multiple random number watermarks- same number cover the whole image.
 
 Each type can have differente opacity, text size and fonts.\
-After each change clicking the preview image button will display an example of the watermark on the image
+After each change clicking the preview image button will display an example of the watermark on the image.\
+**Examples:**\
+![Single watermark](ex1.png)\
+![Multiple watermarks](ex2.png)\
+![Random digits](1ex3.png)\
 ## Important notes
 1. All fileds of the menu must be filled in order for the app to work proparly
 2. When saving more than one copy, the name of the files will be #chosen_name where # start with 0 up to number of copies\
