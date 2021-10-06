@@ -204,8 +204,8 @@ class MenuFrame(tk.Frame):
         # Avaliable font sizes
         self.font_size = [8, 10, 12, 14, 16, 18, 20, 22, 24, 26, 28, 30, 32, 34, 36, 38, 40, 42, 44, 46, 48, 50,
                           52, 54, 56, 58, 60, 62, 64, 66, 68, 70, 72, 74, 76, 78, 80, 82, 84, 86, 88, 90, 92, 94, 96, 98, 100]
-        self.select_button_image = ImageTk.PhotoImage(Image.open(
-            r"C:\Workspace\fire_mark\gui\button_select-image.png"))
+        self.select_button_image = ImageTk.PhotoImage(
+            Image.open(r"gui\button_select-image.png"))
 
         self.load_image_btn = tk.Button(self, image=self.select_button_image,
                                         font=font.Font(size=11), command=self.load_image, borderwidth=0, bg=BG_COLOR)
@@ -294,9 +294,9 @@ class SaveFrame(tk.Frame):
         tk.Frame.__init__(self, root, *args, **kwargs)
         self.root = root
         self.save_button_image = ImageTk.PhotoImage(Image.open(
-            r"C:\Workspace\fire_mark\gui\button_save-image.png"))
+            r"gui\button_save-image.png"))
         self.preview_button_image = ImageTk.PhotoImage(Image.open(
-            r"C:\Workspace\fire_mark\gui\button_preview-image.png"))
+            r"gui\button_preview-image.png"))
         self.preview_image = tk.Button(self, image=self.preview_button_image,
                                        font=font.Font(size=11), command=self.applay_changes, borderwidth=0, bg=BG_COLOR)
         self.save_image = tk.Button(self, image=self.save_button_image,
@@ -430,7 +430,7 @@ class GUI(tk.Frame):
         self.save_path = DirPicker()
         self.root = root
         self.back_image = ImageTk.PhotoImage(Image.open(
-            r"C:\Workspace\fire_mark\gui\back.png"))
+            r"gui\back.png"))
         self.background_label = tk.Label(self, image=self.back_image)
         self.preview_frame = PreviewFrame(self, bg='white')
         self.menu_frame = MenuFrame(self, bg=BG_COLOR)
