@@ -21,6 +21,7 @@ After each change clicking the preview image button will display an example of t
 1. All fileds of the menu must be filled in order for the app to work proparly
 2. When saving more than one copy, the name of the files will be #chosen_name where # start with 0 up to number of copies\
 Ex: 0new_image.png
+3. Images are saved as a .png file
 ## Known issues
 1. Only two fonts are availble
 2. Opacity percentage is not displayed with single watermark option
