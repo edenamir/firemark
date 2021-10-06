@@ -2,9 +2,9 @@
 
 ## Table of contents
 * [General info](#general-info)
-* [Technologies](#technologies)
 * [Importent notes](#Importent-notes)
 * [Known issues](#Known-issues)
+* [Technologies](#technologies)
 
 
 ## General info
