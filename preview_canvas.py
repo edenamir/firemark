@@ -1,4 +1,6 @@
-
+"""
+some text for problem
+"""
 import tkinter as tk
 from PIL import Image, ImageTk
 
@@ -71,7 +73,7 @@ class PreviewCanvas(tk.Canvas):
         Bind mouse click to drag and drop of text
 
         Parameters
-        ---------- 
+        ----------
         image : ImageTk.PhotoImage
             The image for the image object
         text_str : str
@@ -79,7 +81,7 @@ class PreviewCanvas(tk.Canvas):
         font : str
             The type of font
         font_size : int
-            The size of font 
+            The size of font
 
         """
         self.image = image
@@ -94,8 +96,8 @@ class PreviewCanvas(tk.Canvas):
         self.canvas_image_id = self.create_image(
             0,  0, image=self.image, anchor='nw')
         # Display the text om the canvas
-        self.text = self.create_text(str(self.text_x), str(self.text_y), text=text_str, fill='white', font=(
-            self.font, self.font_size), anchor='nw')
+        self.text = self.create_text(str(self.text_x), str(self.text_y), text=text_str,
+                                     fill='white', font=(self.font, self.font_size), anchor='nw')
         # Bind draging text object to changes in text posiotion on canvas
         self.bind("<B1-Motion>", self.change_position)
 
@@ -104,12 +106,12 @@ class PreviewCanvas(tk.Canvas):
 
         Parameters
         ----------
-        event 
+        event
             event triggers mooving of object
 
         Issues
         ------
-        Text object is moovable beyond the image width and height  
+        Text object is moovable beyond the image width and height
 
         """
         self.text_x = event.x
@@ -165,7 +167,7 @@ class PreviewCanvas(tk.Canvas):
 
     @image.setter
     def image(self, new_image):
-        """Set any image as ImageTk.PhotoImage type. 
+        """Set any image as ImageTk.PhotoImage type.
 
         Parameters
         ----------
